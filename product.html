@@ -1,0 +1,1333 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>FutureCreator | Produktseite</title>
+	<style>
+		:root {
+			--bg: #fdfefe;
+			--surface: #ffffff;
+			--primary: #0f4fd6;
+			--primary-soft: #dce8ff;
+			--text: #0d1b2a;
+			--muted: #5f6b7a;
+			--border: #bdd2ff;
+			--ring: 0 0 0 3px rgba(15, 79, 214, 0.18);
+			--radius: 18px;
+			--shadow: 0 20px 45px rgba(13, 27, 42, 0.08);
+		}
+
+		* {
+			box-sizing: border-box;
+			margin: 0;
+			padding: 0;
+		}
+
+		body {
+			font-family: "Segoe UI", "Trebuchet MS", sans-serif;
+			color: var(--text);
+			background:
+				radial-gradient(circle at 100% 0, #d8e7ff 0, transparent 22%),
+				radial-gradient(circle at 0 15%, #f1f7ff 0, transparent 30%),
+				var(--bg);
+			min-height: 100vh;
+		}
+
+		.topbar {
+			position: sticky;
+			top: 0;
+			z-index: 20;
+			background: rgba(255, 255, 255, 0.92);
+			backdrop-filter: blur(8px);
+			border-bottom: 1px solid var(--border);
+			display: grid;
+			grid-template-columns: 1fr auto 1fr;
+			align-items: center;
+			padding: 14px 20px;
+		}
+
+		.left-zone,
+		.right-zone {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+		}
+
+		.right-zone {
+			justify-content: flex-end;
+		}
+
+		.icon-button {
+			border: 2px solid var(--primary);
+			background: #fff;
+			color: var(--primary);
+			border-radius: 12px;
+			width: 44px;
+			height: 44px;
+			display: grid;
+			place-items: center;
+			cursor: pointer;
+			transition: transform 160ms ease, background 160ms ease;
+			text-decoration: none;
+			font-weight: 700;
+			font-size: 1rem;
+		}
+
+		.icon-button:hover {
+			transform: translateY(-2px);
+			background: var(--primary-soft);
+		}
+
+		.icon-button:focus-visible {
+			outline: none;
+			box-shadow: var(--ring);
+		}
+
+		.logo-wrap {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			gap: 10px;
+			text-decoration: none;
+			color: var(--text);
+			font-weight: 700;
+			letter-spacing: 0.5px;
+		}
+
+		.logo-wrap img {
+			width: 48px;
+			height: 48px;
+			object-fit: contain;
+			border-radius: 10px;
+			border: 1px solid var(--border);
+			padding: 4px;
+			background: #fff;
+		}
+
+		.drawer {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 290px;
+			max-width: 84vw;
+			height: 100vh;
+			background: #fff;
+			border-right: 2px solid var(--border);
+			transform: translateX(-102%);
+			transition: transform 220ms ease;
+			z-index: 30;
+			padding: 24px 18px;
+			box-shadow: var(--shadow);
+		}
+
+		.drawer.open {
+			transform: translateX(0);
+		}
+
+		.drawer h3 {
+			margin-bottom: 14px;
+			color: var(--primary);
+		}
+
+		.drawer ul {
+			list-style: none;
+			display: grid;
+			gap: 10px;
+		}
+
+		.drawer a {
+			display: block;
+			padding: 10px 12px;
+			border: 1px solid var(--border);
+			border-radius: 10px;
+			text-decoration: none;
+			color: var(--text);
+			font-weight: 600;
+		}
+
+		.drawer a:hover {
+			background: var(--primary-soft);
+		}
+
+		.overlay {
+			position: fixed;
+			inset: 0;
+			background: rgba(13, 27, 42, 0.35);
+			opacity: 0;
+			pointer-events: none;
+			transition: opacity 200ms ease;
+			z-index: 25;
+		}
+
+		.overlay.show {
+			opacity: 1;
+			pointer-events: auto;
+		}
+
+		.container {
+			width: min(1100px, 92vw);
+			margin: 0 auto;
+			padding: 28px 0 64px;
+		}
+
+		.hero-product {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 12px;
+			border: 2px solid var(--border);
+			border-radius: var(--radius);
+			background: #fff;
+			box-shadow: var(--shadow);
+			overflow: hidden;
+		}
+
+		.hero-media img {
+			width: 100%;
+			height: 100%;
+			min-height: 260px;
+			object-fit: cover;
+			background: linear-gradient(135deg, #ebf2ff, #d6e5ff);
+		}
+
+		.hero-content {
+			padding: 20px;
+			display: flex;
+			flex-direction: column;
+			gap: 10px;
+		}
+
+		.tag {
+			width: fit-content;
+			padding: 5px 9px;
+			border-radius: 999px;
+			border: 1px solid var(--border);
+			color: #1340a7;
+			background: #f2f7ff;
+			font-size: 0.78rem;
+			font-weight: 700;
+		}
+
+		.hero-content h1 {
+			font-size: clamp(1.35rem, 2.2vw, 1.95rem);
+			color: #12398d;
+		}
+
+		.hero-content p {
+			color: #32445a;
+			line-height: 1.5;
+			font-size: 0.95rem;
+		}
+
+		.price {
+			font-size: 1.55rem;
+			color: var(--primary);
+			font-weight: 800;
+		}
+
+		.meta {
+			display: grid;
+			grid-template-columns: repeat(2, minmax(120px, 1fr));
+			gap: 8px;
+		}
+
+		.meta div {
+			border: 1px solid var(--border);
+			border-radius: 12px;
+			padding: 8px;
+			background: #f9fbff;
+			font-size: 0.84rem;
+		}
+
+		.meta strong {
+			display: block;
+			color: #1340a7;
+			margin-bottom: 2px;
+		}
+
+		.cta-row {
+			display: flex;
+			gap: 10px;
+			flex-wrap: wrap;
+			margin-top: 2px;
+		}
+
+		.selection-grid {
+			display: grid;
+			grid-template-columns: repeat(2, minmax(150px, 1fr));
+			gap: 10px;
+		}
+
+		.set-toggle {
+			display: inline-flex;
+			gap: 6px;
+			padding: 4px;
+			border: 1px solid var(--border);
+			background: #f2f7ff;
+			border-radius: 12px;
+		}
+
+		.set-toggle-btn {
+			border: 1px solid transparent;
+			background: transparent;
+			color: #18429f;
+			font: inherit;
+			font-weight: 700;
+			padding: 7px 10px;
+			border-radius: 9px;
+			cursor: pointer;
+			font-size: 0.9rem;
+		}
+
+		.set-toggle-btn.active {
+			background: #fff;
+			border-color: var(--border);
+			color: var(--primary);
+		}
+
+		.hero-price-options {
+			display: grid;
+			gap: 6px;
+		}
+
+		.hero-price-options h3 {
+			font-size: 0.85rem;
+			color: #133d99;
+			letter-spacing: 0.3px;
+			text-transform: uppercase;
+		}
+
+		.price-chip-row {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 8px;
+		}
+
+		.price-chip {
+			border: 1px solid var(--border);
+			background: #f9fbff;
+			border-radius: 999px;
+			padding: 6px 10px;
+			font-size: 0.8rem;
+			color: #234264;
+		}
+
+		.field {
+			display: grid;
+			gap: 6px;
+		}
+
+		.field label {
+			font-size: 0.9rem;
+			font-weight: 700;
+			color: #133d99;
+		}
+
+		.field select,
+		.field input {
+			border: 1px solid var(--border);
+			border-radius: 10px;
+			padding: 10px;
+			font: inherit;
+		}
+
+		.field input[disabled] {
+			background: #eef3ff;
+			cursor: not-allowed;
+		}
+
+		.field.hidden {
+			display: none;
+		}
+
+		.offer-banner {
+			background: var(--primary-soft);
+			border: 2px solid var(--border);
+			border-radius: var(--radius);
+			padding: 20px 24px;
+			margin-bottom: 16px;
+		}
+
+		.offer-banner h2 {
+			color: var(--primary);
+			font-size: 1.15rem;
+			margin-bottom: 8px;
+		}
+
+		.offer-banner .offer-meta {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 10px 24px;
+			margin-bottom: 14px;
+		}
+
+		.offer-banner .offer-meta span {
+			font-size: 0.95rem;
+			color: #1a3a7a;
+		}
+
+		.offer-banner .offer-meta strong {
+			color: var(--primary);
+		}
+
+		.offer-hint {
+			background: #fff3cd;
+			border: 1.5px solid #f0c050;
+			border-radius: 10px;
+			padding: 12px 16px;
+			margin-bottom: 18px;
+			font-size: 0.93rem;
+			color: #5a4000;
+			line-height: 1.55;
+		}
+
+		.template-label {
+			font-weight: 700;
+			color: var(--primary);
+			margin-bottom: 6px;
+			display: block;
+			font-size: 0.95rem;
+		}
+
+		.email-template {
+			width: 100%;
+			min-height: 230px;
+			border: 1.5px solid var(--border);
+			border-radius: 12px;
+			padding: 14px;
+			font-family: "Segoe UI", "Trebuchet MS", sans-serif;
+			font-size: 0.9rem;
+			color: var(--text);
+			background: #fff;
+			resize: vertical;
+			line-height: 1.6;
+			margin-bottom: 10px;
+		}
+
+		.email-template:focus {
+			outline: none;
+			box-shadow: var(--ring);
+		}
+
+		.copy-row {
+			display: flex;
+			align-items: center;
+			gap: 12px;
+			margin-bottom: 6px;
+		}
+
+		.copy-btn {
+			border: 2px solid var(--primary);
+			background: var(--primary);
+			color: #fff;
+			font-weight: 700;
+			border-radius: 10px;
+			padding: 9px 18px;
+			cursor: pointer;
+			font-size: 0.92rem;
+			transition: background 160ms ease, color 160ms ease;
+		}
+
+		.copy-btn:hover {
+			background: #fff;
+			color: var(--primary);
+		}
+
+		.copy-feedback {
+			font-size: 0.88rem;
+			color: #1a7a40;
+			font-weight: 600;
+			visibility: hidden;
+		}
+
+		.copy-feedback.visible {
+			visibility: visible;
+		}
+
+		.offer-quick {
+			display: grid;
+			gap: 6px;
+			padding: 12px;
+			border: 1px solid var(--border);
+			border-radius: 12px;
+			background: #f9fbff;
+			margin: 10px 0 12px;
+			font-size: 0.93rem;
+		}
+
+		.subject-row {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			margin-bottom: 10px;
+			background: #f4f8ff;
+			border: 1px solid var(--border);
+			border-radius: 10px;
+			padding: 10px 14px;
+			font-size: 0.92rem;
+		}
+
+		.subject-row strong {
+			color: var(--primary);
+			white-space: nowrap;
+		}
+
+		.subject-row span {
+			color: var(--text);
+			word-break: break-all;
+		}
+
+		.price-note {
+			font-size: 0.9rem;
+			color: var(--muted);
+		}
+
+		.btn {
+			border: 2px solid var(--primary);
+			color: var(--primary);
+			background: #fff;
+			text-decoration: none;
+			font-weight: 700;
+			border-radius: 12px;
+			padding: 10px 16px;
+			transition: background 160ms ease, color 160ms ease, transform 160ms ease;
+		}
+
+		.btn:hover {
+			background: var(--primary);
+			color: #fff;
+			transform: translateY(-1px);
+		}
+
+		.btn.primary {
+			background: var(--primary);
+			color: #fff;
+		}
+
+		.section {
+			margin-top: 24px;
+			background: #fff;
+			border: 2px solid var(--border);
+			border-radius: var(--radius);
+			padding: 22px;
+			box-shadow: var(--shadow);
+		}
+
+		.section h2 {
+			color: var(--primary);
+			margin-bottom: 10px;
+			font-size: 1.3rem;
+		}
+
+		.features {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+			gap: 12px;
+			margin-top: 12px;
+		}
+
+		.feature {
+			border: 1px solid var(--border);
+			border-radius: 12px;
+			padding: 12px;
+			background: #f9fbff;
+		}
+
+		.feature-details {
+			display: flex;
+			gap: 12px;
+			align-items: flex-start;
+		}
+
+		.feature-details-img {
+			width: 64px;
+			height: 64px;
+			object-fit: cover;
+			border-radius: 10px;
+			border: 1px solid var(--border);
+			flex-shrink: 0;
+			background: linear-gradient(135deg, #ebf2ff, #d6e5ff);
+		}
+
+		.feature-details-body {
+			min-width: 0;
+		}
+
+		.feature h3 {
+			color: #143f9f;
+			margin-bottom: 6px;
+			font-size: 1rem;
+		}
+
+		.details-hidden {
+			display: none;
+		}
+
+		.details-toggle-row {
+			margin-top: 14px;
+			display: flex;
+			justify-content: center;
+		}
+
+		.details-toggle-btn {
+			border: 2px solid var(--primary);
+			background: var(--primary-soft);
+			color: var(--primary);
+			font: inherit;
+			font-weight: 700;
+			border-radius: 12px;
+			padding: 9px 20px;
+			cursor: pointer;
+			transition: background 160ms ease, color 160ms ease;
+			display: flex;
+			align-items: center;
+			gap: 6px;
+		}
+
+		.details-toggle-btn:hover {
+			background: var(--primary);
+			color: #fff;
+		}
+
+		/* Carousel */
+		.carousel-wrap {
+			position: relative;
+			margin-top: 12px;
+		}
+
+		.carousel-track-outer {
+			overflow: hidden;
+			border-radius: 12px;
+		}
+
+		.carousel-track {
+			display: flex;
+			gap: 14px;
+			transition: transform 320ms ease;
+			will-change: transform;
+		}
+
+		.carousel-slide {
+			flex: 0 0 calc(33.333% - 10px);
+			min-width: 0;
+			border: 1px solid var(--border);
+			border-radius: 12px;
+			padding: 16px;
+			background: #f9fbff;
+			display: flex;
+			flex-direction: column;
+			gap: 8px;
+		}
+
+		.carousel-slide .slide-num {
+			font-size: 0.78rem;
+			font-weight: 700;
+			color: var(--primary);
+			background: var(--primary-soft);
+			width: fit-content;
+			padding: 3px 9px;
+			border-radius: 999px;
+		}
+
+		.carousel-slide h3 {
+			color: #143f9f;
+			font-size: 1rem;
+			margin: 0;
+		}
+
+		.carousel-slide p {
+			color: #32445a;
+			line-height: 1.55;
+			font-size: 0.92rem;
+			margin: 0;
+		}
+
+		.carousel-controls {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: 12px;
+			margin-top: 14px;
+		}
+
+		.carousel-btn {
+			border: 2px solid var(--primary);
+			background: #fff;
+			color: var(--primary);
+			border-radius: 50%;
+			width: 38px;
+			height: 38px;
+			display: grid;
+			place-items: center;
+			cursor: pointer;
+			font-size: 1.1rem;
+			transition: background 160ms ease, color 160ms ease;
+		}
+
+		.carousel-btn:hover {
+			background: var(--primary);
+			color: #fff;
+		}
+
+		.carousel-btn:disabled {
+			opacity: 0.35;
+			cursor: default;
+			pointer-events: none;
+		}
+
+		.carousel-dots {
+			display: flex;
+			gap: 7px;
+			align-items: center;
+		}
+
+		.carousel-dot {
+			width: 8px;
+			height: 8px;
+			border-radius: 50%;
+			background: var(--border);
+			border: none;
+			cursor: pointer;
+			transition: background 160ms ease, transform 160ms ease;
+		}
+
+		.carousel-dot.active {
+			background: var(--primary);
+			transform: scale(1.35);
+		}
+
+		@media (max-width: 760px) {
+			.carousel-slide {
+				flex: 0 0 calc(100% - 0px);
+			}
+		}
+
+		@media (min-width: 761px) and (max-width: 920px) {
+			.carousel-slide {
+				flex: 0 0 calc(50% - 7px);
+			}
+		}
+
+		.footer {
+			margin-top: 24px;
+			padding: 18px;
+			border: 2px solid var(--border);
+			border-radius: var(--radius);
+			background: #fff;
+			box-shadow: var(--shadow);
+			display: grid;
+			gap: 8px;
+			text-align: center;
+			color: var(--muted);
+			font-size: 0.9rem;
+		}
+
+		.footer-links {
+			display: flex;
+			justify-content: center;
+			gap: 14px;
+			flex-wrap: wrap;
+		}
+
+		.footer-links a {
+			color: var(--primary);
+			text-decoration: none;
+			font-weight: 700;
+		}
+
+		.footer-links a:hover {
+			text-decoration: underline;
+		}
+
+		@media (max-width: 860px) {
+			.hero-product {
+				grid-template-columns: 1fr;
+			}
+
+			.hero-media img {
+				min-height: 220px;
+			}
+		}
+
+		@media (max-width: 760px) {
+			.topbar {
+				grid-template-columns: auto 1fr auto;
+				padding: 10px 12px;
+			}
+
+			.logo-wrap span {
+				display: none;
+			}
+
+			.hero-content,
+			.section {
+				padding: 16px;
+			}
+
+			.selection-grid {
+				grid-template-columns: 1fr;
+			}
+		}
+	</style>
+</head>
+<body>
+	<header class="topbar">
+		<div class="left-zone">
+			<button class="icon-button" id="menuButton" aria-label="Menü öffnen">☰</button>
+			<a class="logo-wrap" href="index.html" aria-label="Startseite">
+			<img src="./images/logo.png" alt="FutureCreator Logo" />
+			<span>FutureCreator</span>
+		</a>
+		</div>
+		<div></div>
+		
+
+		<div class="right-zone">
+			<a class="icon-button" href="index.html" aria-label="Zur Startseite">🏠</a>
+			<a class="icon-button" href="contact.html" aria-label="Zur Kontaktseite">✉️</a>
+		</div>
+	</header>
+
+	<aside class="drawer" id="drawer" aria-label="Seitennavigation">
+		<h3>Menü</h3>
+		<ul>
+			<li><a href="index.html">Startseite</a></li>
+			<li><a href="#produkt">Produkt</a></li>
+			<li><a href="#features">Highlights</a></li>
+			<li><a href="#details">Technische Komponenten</a></li>
+			<li><a href="#dokumente">Dokumente</a></li>
+			<li><a href="contact.html">Kontakt</a></li>
+		</ul>
+	</aside>
+	<div class="overlay" id="overlay"></div>
+
+	<main class="container">
+		<section class="hero-product" id="produkt">
+			<div class="hero-media">
+				<img id="productImage" src="./images/i1.jpg" alt="T1-Xplorer Produktbild" loading="lazy" />
+			</div>
+			<div class="hero-content">
+				<span class="tag">T1-Xplorer Produktserie</span>
+				<h1 id="productTitle">T1-Xplorer Basic Set</h1>
+				<p>
+					Komplettset für Mikrocontroller- und Robotik-Unterricht mit Online-Kurs, Sensoren und Projekten.
+				</p>
+
+				<div class="field">
+					<label>Produktset</label>
+					<div class="set-toggle" role="tablist" aria-label="Produktset umschalten">
+						<button class="set-toggle-btn active" id="setBasicBtn" type="button">Basic Set</button>
+						<button class="set-toggle-btn" id="setAdvancedBtn" type="button">Advanced Set</button>
+					</div>
+				</div>
+
+				<div class="hero-price-options">
+					<h3>Preisoptionen</h3>
+					<div class="price-chip-row" id="heroPriceOptions"></div>
+				</div>
+
+				<p class="price" id="priceLabel">449 EUR</p>
+				<p class="price-note" id="priceNote">Preis für 1 Set, inkl. Starter-Guide und Basis-Support.</p>
+
+				<div class="cta-row">
+					<button class="btn primary" onclick="requestOffer()">Angebot anfragen</button>
+				</div>
+			</div>
+		</section>
+
+		<section class="section" id="features">
+	<h2>Produkt-Highlights</h2>
+	<p>
+	Das T1-Xplorer Basic Set kombiniert Hardware, Lernmaterialien und Online-Kurs zu einem vollständigen Unterrichtssystem für Mikrocontroller und Robotik.
+	</p>
+
+	<div class="features">
+		
+		<article class="feature">
+			<h3>Direkt im Unterricht einsetzbar</h3>
+			<p>
+			Fertige Projekte, strukturierte Anleitungen und abgestimmte Komponenten ermöglichen den sofortigen Einsatz im Unterricht – ohne lange Vorbereitung.
+			</p>
+		</article>
+
+		<article class="feature">
+			<h3>Keine Vorkenntnisse notwendig</h3>
+			<p>
+			Schritt-für-Schritt Lernmodule führen von den Grundlagen bis zu eigenen Projekten und erleichtern den Einstieg für Schüler und Lehrkräfte.
+			</p>
+		</article>
+
+		<article class="feature">
+			<h3>Förderfähig für Schulen</h3>
+			<p>
+			Vorbereitete Unterlagen unterstützen bei Förderanträgen, Freigaben und der Planung von Technikprojekten im Schulbetrieb.
+			</p>
+		</article>
+
+	</div>
+		</section>
+
+		<section class="section" id="details">
+			<h2>Enthaltene Bauteile</h2>
+			<div class="features" id="detailsGrid"></div>
+			<div class="details-toggle-row" id="detailsToggleRow"></div>
+		</section>
+
+		<section class="section" id="lernkurs">
+			<h2>Online Lernkurs (kostenlos)</h2>
+<p>Der Online-Kurs vermittelt zunächst die Grundlagen des im T1-Xplorer-Set enthaltenen Mikrocontrollers und erweitert diese anschließend durch praxisnahe Projekte mit Sensordaten, Datenanalyse sowie App- und E-Mail-Integration.</p>			<div class="carousel-wrap">
+				<div class="carousel-track-outer">
+					<div class="carousel-track" id="courseTrack"></div>
+				</div>
+				<div class="carousel-controls">
+					<button class="carousel-btn" id="coursePrev" aria-label="Zurück">&#8592;</button>
+					<div class="carousel-dots" id="courseDots"></div>
+					<button class="carousel-btn" id="courseNext" aria-label="Weiter">&#8594;</button>
+				</div>
+			</div>
+		</section>
+
+		<section class="section" id="dokumente">
+			<h2>Dokumente für Schulbehördliche Förderung</h2>
+			<p>
+				Diese Unterlagen helfen bei der Beantragung von Fördermitteln, bei internen Freigaben
+				und bei der schulischen Projektplanung.
+			</p>
+			<div class="features">
+				<article class="feature">
+					<h3>Förderantrag Vorlage</h3>
+					<p>Ausfüllbare Vorlage mit Projektziel, Kostenaufstellung und didaktischer Begründung.</p>
+					<div class="cta-row">
+						<a class="btn" href="#" aria-label="Förderantrag herunterladen">PDF herunterladen</a>
+					</div>
+				</article>
+				<article class="feature">
+					<h3>Kosten- und Nutzenblatt</h3>
+					<p>Übersicht für Schulträger mit Vergleich Basic vs. Advanced und Laufzeitkosten.</p>
+					<div class="cta-row">
+						<a class="btn" href="#" aria-label="Kostenblatt herunterladen">PDF herunterladen</a>
+					</div>
+				</article>
+				<article class="feature">
+					<h3>Technisches Sicherheitsdatenblatt</h3>
+					<p>Elektrische Sicherheit, Altersfreigaben, Materialdaten und Wartungshinweise.</p>
+					<div class="cta-row">
+						<a class="btn" href="#" aria-label="Sicherheitsdatenblatt herunterladen">PDF herunterladen</a>
+					</div>
+				</article>
+				<article class="feature">
+					<h3>Lehrplan-Mapping</h3>
+					<p>Zuordnung der Lernmodule zu MINT-Kompetenzen, Unterrichtseinheiten und Lernzielen.</p>
+					<div class="cta-row">
+						<a class="btn" href="#" aria-label="Lehrplan Mapping herunterladen">PDF herunterladen</a>
+					</div>
+				</article>
+			</div>
+		</section>
+
+		<section class="section" id="angebot">
+			<h2>Angebot anfragen</h2>
+			<p>
+				Für ein verbindliches Angebot wähle hier nur die gewünschte Menge, kopiere die Vorlage
+				und sende sie per E-Mail an <strong>hello@futurecreator.example</strong>.
+			</p>
+
+			<div class="selection-grid">
+				<div class="field">
+					<label for="qtySelect">Produktanzahl</label>
+					<select id="qtySelect" aria-label="Anzahl auswählen">
+						<option value="1">1</option>
+						<option value="10">10</option>
+						<option value="20">20</option>
+						<option value="custom">Custom</option>
+					</select>
+				</div>
+
+				<div class="field hidden" id="customQtyField">
+					<label for="customQty">Eigene Anzahl</label>
+					<input id="customQty" type="number" min="1" step="1" value="25" aria-label="Custom Anzahl" />
+				</div>
+			</div>
+
+			<div class="offer-quick">
+				<div><strong>Produkt:</strong> <span id="offerTitle"></span></div>
+				<div><strong>Menge:</strong> <span id="offerQty"></span></div>
+				<div><strong>Richtpreis:</strong> <span id="offerPrice"></span></div>
+				<div><strong>Betreff:</strong> <span id="emailSubject"></span></div>
+			</div>
+
+			<label class="template-label" for="emailTemplate">E-Mail-Vorlage</label>
+			<textarea class="email-template" id="emailTemplate" readonly aria-label="E-Mail Vorlage"></textarea>
+
+			<div class="copy-row">
+				<button class="copy-btn" id="copyBtn">E-Mail kopieren</button>
+				<span class="copy-feedback" id="copyFeedback">&#10003; In die Zwischenablage kopiert!</span>
+			</div>
+		</section>
+
+		<footer class="footer">
+			<div class="footer-links">
+				<a href="impressum.html" aria-label="Impressum anzeigen">Impressum</a>
+				<a href="datenschutz.html" aria-label="Datenschutz anzeigen">Datenschutz</a>
+			</div>
+			<div>Kontakt: hello@futurecreator.example | +49 30 1234 5678 | FutureCreator GmbH, Berlin</div>
+			<div>&copy; 2026 FutureCreator. Alle Rechte vorbehalten.</div>
+		</footer>
+	</main>
+
+	<script>
+		const menuButton = document.getElementById("menuButton");
+		const drawer = document.getElementById("drawer");
+		const overlay = document.getElementById("overlay");
+		const setBasicBtn = document.getElementById("setBasicBtn");
+		const setAdvancedBtn = document.getElementById("setAdvancedBtn");
+		const heroPriceOptions = document.getElementById("heroPriceOptions");
+		const qtySelect = document.getElementById("qtySelect");
+		const customQty = document.getElementById("customQty");
+		const customQtyField = document.getElementById("customQtyField");
+		const productTitle = document.getElementById("productTitle");
+		const productImage = document.getElementById("productImage");
+		const priceLabel = document.getElementById("priceLabel");
+		const priceNote = document.getElementById("priceNote");
+		const offerTitle = document.getElementById("offerTitle");
+		const offerQty = document.getElementById("offerQty");
+		const offerPrice = document.getElementById("offerPrice");
+		const emailSubject = document.getElementById("emailSubject");
+		const emailTemplate = document.getElementById("emailTemplate");
+		const copyBtn = document.getElementById("copyBtn");
+		const copyFeedback = document.getElementById("copyFeedback");
+		const detailsGrid = document.getElementById("detailsGrid");
+		const detailsToggleRow = document.getElementById("detailsToggleRow");
+		const courseTrack = document.getElementById("courseTrack");
+		const prevBtn = document.getElementById("coursePrev");
+		const nextBtn = document.getElementById("courseNext");
+		const dotsContainer = document.getElementById("courseDots");
+		const DETAILS_INITIAL = 4;
+		let currentSetKey = "basic";
+
+		const productSets = {
+			basic: {
+				title: "T1-Xplorer Basic Set",
+				image: "./images/basic.jpg",
+				basePrice: 52.99,
+				courses: [ 
+					{ label: "Modul 1", title: "Electric Lighting", text: "Einbau und Ansteuerung der Beleuchtung im T1. LEDs werden angeschlossen, programmiert und über verschiedene Modi individuell gesteuert." },
+
+					{ label: "Modul 2", title: "Sounds", text: "Integration von akustischen Signalen im T1. Summer und Soundmodule werden programmiert, um Warnungen, Effekte und Rückmeldungen zu erzeugen." },
+
+					{ label: "Modul 3", title: "Sensors", text: "Einbau eines Bewegungssensors im T1. Bewegungen werden erkannt und lösen automatisch Licht- oder Soundsignale aus." },
+
+					{ label: "Modul 4", title: "Monitoring", text: "Temperaturüberwachung im T1. Anzeige erfolgt über Zeiger und 4-stelliges 7-Segment-Display sowie zusätzlich im seriellen Monitor." },
+
+					{ label: "Modul 5", title: "Internet of Things", text: "Temperaturdaten werden per WLAN an ThingSpeak gesendet und online visualisiert. Werte sind im Browser als Diagramm abrufbar." },
+
+					{ label: "Modul 6", title: "RGB Tuning", text: "RGB-Unterbodenbeleuchtung per Bluetooth-App steuern. Farben wählen oder Automatikmodus nutzen, der die Farbe an die Temperatur anpasst." },
+
+					{ label: "Bonus", title: "T1-eco", text: "Temperatur- und Feuchtigkeitswerte werden online übertragen. Optional: automatische E-Mail-Benachrichtigung über IFTTT bei Grenzwerten." }
+				],
+				parts: [
+					{ title: "T1-Bauset", image: "./images/parts/t1.jpg", text: "1x T1 Core Board mit USB-C Anschluss, WLAN und Bluetooth." },
+					{ title: "ESP32", image: "./images/parts/esp.jpg", text: "ESP32 Entwicklungsboard mit WLAN und Bluetooth für eigene Projekte." },
+					{ title: "Ultraschallsensor", image: "./images/parts/ultra.jpg", text: "Ultraschallsensor zur Distanz- und Hinderniserkennung." },
+					{ title: "Display", image: "./images/parts/display.jpg", text: "OLED/LC Display zur Anzeige von Texten, Sensorwerten und Menüs." },
+					{ title: "Infrarotempfänger", image: "./images/parts/inf.jpg", text: "IR-Empfänger zur Steuerung per Fernbedienung." },
+					{ title: "Temperatursensor", image: "./images/parts/temp.jpg", text: "Temperatursensor zur Messung der Umgebungstemperatur." },
+					{ title: "Bewegungsmelder", image: "./images/parts/licht.jpg", text: "PIR-Bewegungssensor zur Erkennung von Bewegungen." },
+					{ title: "2 Servos", image: "./images/parts/servo.jpg", text: "Mini-Servo Motoren für präzise Drehbewegungen." },
+					{ title: "Funkit", image: "./images/parts/funKit.jpg", text: "Fun-Kit mit LEDs, Tastern und Experimentier-Bauteilen." },
+					{ title: "2 Breadboards", image: "./images/parts/brdBrd.jpg", text: "Steckbretter für lötfreies Prototyping und schnelle Aufbauten." }
+				]
+			},
+			advanced: {
+				title: "T1-Xplorer Advanced Set",
+				image: "./images/advanced.jpg",
+				basePrice: 59.99,
+				courses: [
+					{ label: "Module 1-6", title: "Alle Module Basic", text: "Enthält die Module 1 bis 6 des Basic Sets mit den Grundlagen zu Sensoren, Beleuchtung, Sounds, Monitoring und IoT." },
+
+					{ label: "Modul 7", title: "Distance Control", text: "Distanzmessung mit Ultraschallsensor. Motor wird per PWM gesteuert, Anzeige erfolgt über das 7-Segment-Display." },
+
+					{ label: "Modul 8", title: "Plant", text: "Automatische Pflanzenbewässerung mit Bodenfeuchtesensor. Optische Warnung und Aktivierung der Bewässerung." },
+
+					{ label: "Modul 9", title: "Clock", text: "Darstellung der aktuellen Uhrzeit in binärer Form. Umsetzung mit LEDs und Programmierung der Zeitlogik." },
+
+					{ label: "Modul 10", title: "Remote", text: "Infrarot-Fernsteuerung für den T1. Steuerung per Fernbedienung mit optionaler Freigabe über RFID." },
+
+					{ label: "Modul 11", title: "Smart", text: "App-Steuerung per Bluetooth. Verbindung zwischen ESP32 im T1 und Smartphone zur Fahrzeugsteuerung." }
+				],
+				parts: [
+					{ title: "T1-Bauset", image: "./images/parts/t1.jpg", text: "1x T1 Core Board mit USB-C Anschluss, WLAN und Bluetooth." },
+					{ title: "ESP32", image: "./images/parts/esp.jpg", text: "ESP32 Entwicklungsboard mit WLAN und Bluetooth für eigene Projekte." },
+					{ title: "Ultraschallsensor", image: "./images/parts/ultra.jpg", text: "Ultraschallsensor zur Distanz- und Hinderniserkennung." },
+					{ title: "Display", image: "./images/parts/display.jpg", text: "OLED/LC Display zur Anzeige von Texten, Sensorwerten und Menüs." },
+					{ title: "Infrarotempfänger", image: "./images/parts/inf.jpg", text: "IR-Empfänger zur Steuerung per Fernbedienung." },
+					{ title: "Temperatursensor", image: "./images/parts/temp.jpg", text: "Temperatursensor zur Messung der Umgebungstemperatur." },
+					{ title: "Bewegungsmelder", image: "./images/parts/licht.jpg", text: "PIR-Bewegungssensor zur Erkennung von Bewegungen." },
+					{ title: "2 Servos", image: "./images/parts/servo.jpg", text: "Mini-Servo Motoren für präzise Drehbewegungen." },
+					{ title: "Funkit", image: "./images/parts/funKit.jpg", text: "Fun-Kit mit LEDs, Tastern und Experimentier-Bauteilen." },
+					{ title: "Motor", image: "./images/parts/motor.jpg", text: "DC-Motor für Antriebs- und Bewegungsprojekte." },
+					{ title: "Motor-Treiber", image: "./images/parts/motortreiber.jpg", text: "Motortreiber-Modul zur Steuerung von Motoren über den Controller." },
+					{ title: "2 Breadboards", image: "./images/parts/brdBrd.jpg", text: "Steckbretter für lötfreies Prototyping und schnelle Aufbauten." }
+				]
+			}
+		};
+
+		const formatEUR = (value) => `${value.toLocaleString("de-DE")} EUR`;
+
+		const getQuantity = () => {
+			if (qtySelect.value === "custom") {
+				const customValue = Number.parseInt(customQty.value, 10);
+				return Number.isFinite(customValue) && customValue > 0 ? customValue : 1;
+			}
+
+			return Number.parseInt(qtySelect.value, 10);
+		};
+
+		const getDiscountFactor = (quantity) => {
+			if (quantity >= 20) {
+				return 0.84;
+			}
+
+			if (quantity >= 10) {
+				return 0.9;
+			}
+
+			if (quantity >= 5) {
+				return 0.95;
+			}
+
+			return 1;
+		};
+
+		const renderParts = (parts) => {
+			detailsGrid.innerHTML = parts
+				.map(
+					(part, i) => `
+						<article class="feature${i >= DETAILS_INITIAL ? " details-extra details-hidden" : ""}">
+							<div class="feature-details">
+								<img class="feature-details-img" src="${part.image || "./images/pb1.png"}" alt="${part.title}" loading="lazy" onerror="this.onerror=null;this.src='./images/pb1.png';" />
+								<div class="feature-details-body">
+									<h3>${part.title}</h3>
+									<p>${part.text}</p>
+								</div>
+							</div>
+						</article>
+					`
+				)
+				.join("");
+
+			const hasExtra = parts.length > DETAILS_INITIAL;
+			if (hasExtra) {
+				detailsToggleRow.innerHTML = `<button class="details-toggle-btn" id="detailsToggleBtn">Mehr anzeigen &#9660;</button>`;
+				let expanded = false;
+				document.getElementById("detailsToggleBtn").addEventListener("click", () => {
+					expanded = !expanded;
+					detailsGrid.querySelectorAll(".details-extra").forEach((el) => {
+						el.classList.toggle("details-hidden", !expanded);
+					});
+					document.getElementById("detailsToggleBtn").innerHTML = expanded
+						? "Weniger anzeigen &#9650;"
+						: "Mehr anzeigen &#9660;";
+				});
+			} else {
+				detailsToggleRow.innerHTML = "";
+			}
+		};
+
+		const getSlidesPerView = () => {
+			if (window.innerWidth <= 760) return 1;
+			if (window.innerWidth <= 920) return 2;
+			return 3;
+		};
+
+		let currentIndex = 0;
+
+		const getCourseSlides = () => Array.from(courseTrack.children);
+
+		const goTo = (index) => {
+			const slides = getCourseSlides();
+			if (!slides.length) {
+				courseTrack.style.transform = "translateX(0)";
+				prevBtn.disabled = true;
+				nextBtn.disabled = true;
+				dotsContainer.innerHTML = "";
+				return;
+			}
+
+			const perView = getSlidesPerView();
+			const maxIndex = Math.max(0, Math.ceil(slides.length / perView) - 1);
+			currentIndex = Math.max(0, Math.min(index, maxIndex));
+			const slideWidth = slides[0].offsetWidth + 14;
+			courseTrack.style.transform = `translateX(-${currentIndex * perView * slideWidth}px)`;
+			dotsContainer.querySelectorAll(".carousel-dot").forEach((dot, dotIndex) => {
+				dot.classList.toggle("active", dotIndex === currentIndex);
+			});
+			prevBtn.disabled = currentIndex === 0;
+			nextBtn.disabled = currentIndex >= maxIndex;
+		};
+
+		const buildDots = () => {
+			const slides = getCourseSlides();
+			const perView = getSlidesPerView();
+			const total = Math.max(1, Math.ceil(slides.length / perView));
+			dotsContainer.innerHTML = "";
+			for (let i = 0; i < total; i++) {
+				const dot = document.createElement("button");
+				dot.className = "carousel-dot" + (i === 0 ? " active" : "");
+				dot.setAttribute("aria-label", `Seite ${i + 1}`);
+				dot.addEventListener("click", () => goTo(i));
+				dotsContainer.appendChild(dot);
+			}
+		};
+
+		const renderCourses = (courses) => {
+			courseTrack.innerHTML = courses
+				.map(
+					(course) => `
+						<div class="carousel-slide">
+							<span class="slide-num">${course.label}</span>
+							<h3>${course.title}</h3>
+							<p>${course.text}</p>
+						</div>
+					`
+				)
+				.join("");
+
+			buildDots();
+			goTo(0);
+		};
+
+		const renderHeroPriceOptions = (basePrice) => {
+			const options = [1, 10, 20].map((qty) => {
+				const total = Math.round(basePrice * qty * getDiscountFactor(qty));
+				return `<span class="price-chip">${qty} Set${qty > 1 ? "s" : ""}: ${formatEUR(total)}</span>`;
+			});
+			heroPriceOptions.innerHTML = options.join("");
+		};
+
+		const syncSetToggle = () => {
+			setBasicBtn.classList.toggle("active", currentSetKey === "basic");
+			setAdvancedBtn.classList.toggle("active", currentSetKey === "advanced");
+		};
+
+		const updateProductView = () => {
+			const currentSet = productSets[currentSetKey];
+			const quantity = getQuantity();
+
+			productTitle.textContent = currentSet.title;
+			productImage.src = currentSet.image;
+			productImage.alt = `${currentSet.title} Produktbild`;
+			renderHeroPriceOptions(currentSet.basePrice);
+
+			if (quantity > 25) {
+				priceLabel.textContent = "Individuelles Angebot";
+				priceNote.textContent = "Bei größeren Bestellungen besteht die Möglichkeit eines individuellen Preises. Kontaktiere uns gerne direkt.";
+			} else {
+				const discountFactor = getDiscountFactor(quantity);
+				const totalPrice = Math.round(currentSet.basePrice * quantity * discountFactor);
+				priceLabel.textContent = formatEUR(totalPrice);
+				priceNote.textContent = `Preis für ${quantity} Set(s), inkl. Online-Lernkurs und Support.`;
+			}
+
+			renderParts(currentSet.parts);
+			renderCourses(currentSet.courses);
+
+			offerTitle.textContent = currentSet.title;
+			offerQty.textContent = quantity + (quantity === 1 ? " Set" : " Sets");
+			offerPrice.textContent = priceLabel.textContent;
+
+			const subject = "Angebotsanfrage – " + currentSet.title;
+			emailSubject.textContent = subject;
+
+			emailTemplate.value = [
+				"Sehr geehrtes FutureCreator-Team,",
+				"",
+				"hiermit möchte ich ein verbindliches Angebot für folgende Produkte anfragen:",
+				"",
+				"Produkt:    " + currentSet.title,
+				"Anzahl:     " + quantity + (quantity === 1 ? " Set" : " Sets"),
+				"Richtpreis: " + priceLabel.textContent + " (gemäß Website, ohne Gewähr)",
+				"",
+				"Bitte senden Sie mir ein verbindliches Angebot inkl. Liefer- und Zahlungskonditionen zu.",
+				"",
+				"--- Meine Kontaktdaten ---",
+				"Name:        [Ihr Name]",
+				"Institution: [Schule / Organisation]",
+				"E-Mail:      [Ihre E-Mail-Adresse]",
+				"Telefon:     [optional]",
+				"",
+				"Mit freundlichen Grüßen,",
+				"[Ihr Name]"
+			].join("\n");
+			syncSetToggle();
+		};
+
+		function requestOffer() {
+			updateProductView();
+			document.getElementById("angebot").scrollIntoView({ behavior: "smooth", block: "start" });
+		}
+
+		qtySelect.addEventListener("change", () => {
+			const isCustom = qtySelect.value === "custom";
+			customQtyField.classList.toggle("hidden", !isCustom);
+			if (!isCustom) {
+				customQty.value = "25";
+			}
+			updateProductView();
+		});
+
+		setBasicBtn.addEventListener("click", () => {
+			currentSetKey = "basic";
+			updateProductView();
+		});
+
+		setAdvancedBtn.addEventListener("click", () => {
+			currentSetKey = "advanced";
+			updateProductView();
+		});
+		customQty.addEventListener("input", updateProductView);
+
+		const setMenu = (open) => {
+			drawer.classList.toggle("open", open);
+			overlay.classList.toggle("show", open);
+			menuButton.setAttribute("aria-expanded", String(open));
+		};
+
+		menuButton.addEventListener("click", () => {
+			setMenu(!drawer.classList.contains("open"));
+		});
+
+		overlay.addEventListener("click", () => setMenu(false));
+		drawer.querySelectorAll("a").forEach((link) => {
+			link.addEventListener("click", () => setMenu(false));
+		});
+
+		const urlSet = new URLSearchParams(window.location.search).get("set");
+		if (urlSet && Object.prototype.hasOwnProperty.call(productSets, urlSet)) {
+			currentSetKey = urlSet;
+		}
+
+		copyBtn.addEventListener("click", () => {
+			const subjectLine = "Betreff: " + emailSubject.textContent + "\n\n";
+			navigator.clipboard.writeText(subjectLine + emailTemplate.value).then(() => {
+				copyFeedback.classList.add("visible");
+				setTimeout(() => copyFeedback.classList.remove("visible"), 3000);
+			});
+		});
+
+		updateProductView();
+
+		prevBtn.addEventListener("click", () => goTo(currentIndex - 1));
+		nextBtn.addEventListener("click", () => goTo(currentIndex + 1));
+
+		let resizeTimer;
+		window.addEventListener("resize", () => {
+			clearTimeout(resizeTimer);
+			resizeTimer = setTimeout(() => {
+				buildDots();
+				goTo(currentIndex);
+			}, 120);
+		});
+	</script>
+</body>
+</html>

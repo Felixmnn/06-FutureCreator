@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>FutureCreator | Startseite</title>
+	<style>
+		:root {
+			--bg: #fdfefe;
+			--surface: #ffffff;
+			--primary: #0f4fd6;
+			--primary-soft: #dce8ff;
+			--text: #0d1b2a;
+			--muted: #5f6b7a;
+			--border: #bdd2ff;
+			--ring: 0 0 0 3px rgba(15, 79, 214, 0.18);
+			--radius: 18px;
+			--shadow: 0 20px 45px rgba(13, 27, 42, 0.08);
+		}
+
+		* {
+			box-sizing: border-box;
+			margin: 0;
+			padding: 0;
+		}
+
+		html,
+		body {
+			scroll-behavior: smooth;
+		}
+
+		body {
+			font-family: "Segoe UI", "Trebuchet MS", sans-serif;
+			color: var(--text);
+			background:
+				radial-gradient(circle at 90% 2%, #d8e7ff 0, transparent 22%),
+				radial-gradient(circle at 10% 14%, #f1f7ff 0, transparent 28%),
+				var(--bg);
+			min-height: 100vh;
+		}
+
+		.topbar {
+			position: sticky;
+			top: 0;
+			z-index: 20;
+			background: rgba(255, 255, 255, 0.92);
+			backdrop-filter: blur(8px);
+			border-bottom: 1px solid var(--border);
+			display: grid;
+			grid-template-columns: 1fr auto 1fr;
+			align-items: center;
+			padding: 14px 20px;
+		}
+
+		.left-zone,
+		.right-zone {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+		}
+
+		.right-zone {
+			justify-content: flex-end;
+		}
+
+		.icon-button {
+			border: 2px solid var(--primary);
+			background: #fff;
+			color: var(--primary);
+			border-radius: 12px;
+			width: 44px;
+			height: 44px;
+			display: grid;
+			place-items: center;
+			cursor: pointer;
+			transition: transform 160ms ease, background 160ms ease;
+			text-decoration: none;
+			font-weight: 700;
+			font-size: 1rem;
+		}
+
+		.icon-button:hover {
+			transform: translateY(-2px);
+			background: var(--primary-soft);
+		}
+
+		.icon-button:focus-visible {
+			outline: none;
+			box-shadow: var(--ring);
+		}
+
+		.logo-wrap {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			gap: 10px;
+			text-decoration: none;
+			color: var(--text);
+			font-weight: 700;
+			letter-spacing: 0.5px;
+		}
+
+		.logo-wrap img {
+			width: 48px;
+			height: 48px;
+			object-fit: contain;
+			border-radius: 10px;
+			border: 2px solid var(--border);
+			padding: 4px;
+			background: #fff;
+		}
+
+		.drawer {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 290px;
+			max-width: 84vw;
+			height: 100vh;
+			background: #fff;
+			border-right: 2px solid var(--border);
+			transform: translateX(-102%);
+			transition: transform 220ms ease;
+			z-index: 30;
+			padding: 24px 18px;
+			box-shadow: var(--shadow);
+		}
+
+		.drawer.open {
+			transform: translateX(0);
+		}
+
+		.drawer h3 {
+			margin-bottom: 14px;
+			color: var(--primary);
+		}
+
+		.drawer ul {
+			list-style: none;
+			display: grid;
+			gap: 10px;
+		}
+
+		.drawer a {
+			display: block;
+			padding: 10px 12px;
+			border: 1px solid var(--border);
+			border-radius: 10px;
+			text-decoration: none;
+			color: var(--text);
+			font-weight: 600;
+		}
+
+		.drawer a:hover {
+			background: var(--primary-soft);
+		}
+
+		.overlay {
+			position: fixed;
+			inset: 0;
+			background: rgba(13, 27, 42, 0.35);
+			opacity: 0;
+			pointer-events: none;
+			transition: opacity 200ms ease;
+			z-index: 25;
+		}
+
+		.overlay.show {
+			opacity: 1;
+			pointer-events: auto;
+		}
+
+		.container {
+			width: min(1100px, 92vw);
+			margin: 0 auto;
+			padding: 26px 0 64px;
+		}
+
+		.hero {
+			margin-top: 20px;
+			border: 2px solid var(--border);
+			border-radius: var(--radius);
+			overflow: hidden;
+			background: var(--surface);
+			box-shadow: var(--shadow);
+		}
+
+		.hero-head {
+			padding: 20px;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			flex-wrap: wrap;
+			gap: 10px;
+		}
+
+		.hero-head h1 {
+			font-size: clamp(1.3rem, 2vw, 2rem);
+		}
+
+		.hero-head p {
+			color: var(--muted);
+			font-size: 0.95rem;
+		}
+
+		.carousel {
+			position: relative;
+			overflow: hidden;
+			user-select: none;
+			touch-action: pan-y;
+			cursor: grab;
+		}
+
+		.track {
+			display: flex;
+			transition: transform 360ms ease;
+			will-change: transform;
+		}
+
+		.slide {
+			min-width: 100%;
+			position: relative;
+			display: block;
+			text-decoration: none;
+			color: #fff;
+		}
+
+		.slide img {
+			width: 100%;
+			height: clamp(260px, 38vw, 440px);
+			object-fit: cover;
+			display: block;
+			background: linear-gradient(135deg, #ebf2ff, #d6e5ff);
+		}
+
+		.slide::after {
+			content: "Jetzt mehr erfahren";
+			position: absolute;
+			bottom: 16px;
+			left: 16px;
+			background: rgba(15, 79, 214, 0.9);
+			border: 1px solid #fff;
+			border-radius: 999px;
+			padding: 9px 16px;
+			font-size: 0.9rem;
+			font-weight: 700;
+		}
+
+		.carousel-controls {
+			position: absolute;
+			inset: auto 12px 12px auto;
+			display: flex;
+			gap: 8px;
+		}
+
+		.nav-btn {
+			border: 1px solid #fff;
+			background: rgba(15, 79, 214, 0.85);
+			color: #fff;
+			width: 34px;
+			height: 34px;
+			border-radius: 10px;
+			cursor: pointer;
+			font-size: 1rem;
+		}
+
+		.dots {
+			display: flex;
+			gap: 8px;
+			justify-content: center;
+			padding: 16px 0 22px;
+			background: linear-gradient(180deg, transparent, #f4f8ff);
+		}
+
+		.dot {
+			width: 12px;
+			height: 12px;
+			border-radius: 999px;
+			border: 1px solid var(--primary);
+			background: #fff;
+			cursor: pointer;
+		}
+
+		.dot.active {
+			background: var(--primary);
+			transform: scale(1.1);
+		}
+
+		section {
+			margin-top: 34px;
+			background: #fff;
+			border: 2px solid var(--border);
+			border-radius: var(--radius);
+			padding: 22px;
+			box-shadow: var(--shadow);
+		}
+
+		section h2 {
+			font-size: 1.35rem;
+			margin-bottom: 10px;
+			color: var(--primary);
+		}
+
+		section p {
+			line-height: 1.65;
+			color: #263245;
+		}
+
+		.products-grid {
+			margin-top: 16px;
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+			gap: 12px;
+		}
+
+		.product-card {
+			border: 1px solid var(--border);
+			border-radius: 14px;
+			padding: 14px;
+			background: #f9fbff;
+		}
+
+		a.product-card {
+			display: block;
+			text-decoration: none;
+			color: inherit;
+			transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+		}
+
+		a.product-card:hover {
+			transform: translateY(-2px);
+			box-shadow: 0 10px 24px rgba(13, 27, 42, 0.1);
+			border-color: #97b8ff;
+		}
+
+		a.product-card:focus-visible {
+			outline: none;
+			box-shadow: var(--ring);
+		}
+
+		.product-icon {
+			width: 46px;
+			height: 46px;
+			display: grid;
+			place-items: center;
+			border-radius: 12px;
+			border: 1px solid var(--border);
+			background: #fff;
+			font-size: 1.35rem;
+			margin-bottom: 8px;
+		}
+
+		.product-card h3 {
+			margin-bottom: 6px;
+			color: #143f9f;
+			font-size: 1.05rem;
+		}
+
+		.product-preview {
+			width: 100%;
+			aspect-ratio: 3 / 2;
+			object-fit: cover;
+			border-radius: 12px;
+			border: 1px solid var(--border);
+			margin-bottom: 10px;
+			background: #eef4ff;
+		}
+
+		.option-list {
+			list-style: none;
+			display: grid;
+			gap: 7px;
+			margin-top: 10px;
+		}
+
+		.option-list li {
+			display: flex;
+			justify-content: space-between;
+			gap: 10px;
+			padding: 7px 9px;
+			border: 1px solid var(--border);
+			border-radius: 10px;
+			background: #fff;
+			font-size: 0.88rem;
+		}
+
+		.option-title {
+			font-weight: 700;
+			color: #1a2e4a;
+		}
+
+		.option-price {
+			font-weight: 700;
+			color: var(--primary);
+		}
+
+		.cta-row {
+			margin-top: 16px;
+			display: flex;
+			gap: 10px;
+			flex-wrap: wrap;
+		}
+
+		.btn {
+			border: 2px solid var(--primary);
+			color: var(--primary);
+			background: #fff;
+			text-decoration: none;
+			font-weight: 700;
+			border-radius: 12px;
+			padding: 10px 16px;
+			transition: background 160ms ease, color 160ms ease, transform 160ms ease;
+		}
+
+		.btn:hover {
+			background: var(--primary);
+			color: #fff;
+			transform: translateY(-1px);
+		}
+
+		.btn.primary {
+			background: var(--primary);
+			color: #fff;
+		}
+
+		.btn.primary:hover {
+			background: #0d43b2;
+		}
+
+		.footer {
+			margin-top: 24px;
+			padding: 18px;
+			border: 2px solid var(--border);
+			border-radius: var(--radius);
+			background: #fff;
+			box-shadow: var(--shadow);
+			display: grid;
+			gap: 8px;
+			text-align: center;
+			color: var(--muted);
+			font-size: 0.9rem;
+		}
+
+		.footer-links {
+			display: flex;
+			justify-content: center;
+			gap: 14px;
+			flex-wrap: wrap;
+		}
+
+		.footer-links a {
+			color: var(--primary);
+			text-decoration: none;
+			font-weight: 700;
+		}
+
+		.footer-links a:hover {
+			text-decoration: underline;
+		}
+
+		/* Reviews Carousel */
+		.reviews-outer {
+			overflow: hidden;
+			border-radius: 14px;
+			margin-top: 14px;
+		}
+
+		.reviews-track {
+			display: flex;
+			gap: 16px;
+			transition: transform 340ms ease;
+			will-change: transform;
+		}
+
+		.review-card {
+			flex: 0 0 calc(50% - 8px);
+			min-width: 0;
+			border: 1px solid var(--border);
+			border-radius: 14px;
+			padding: 18px;
+			background: #f9fbff;
+			display: flex;
+			flex-direction: column;
+			gap: 10px;
+		}
+
+		.review-stars {
+			color: #f5a623;
+			font-size: 1.1rem;
+			letter-spacing: 2px;
+		}
+
+		.review-text {
+			color: #263245;
+			line-height: 1.6;
+			font-size: 0.95rem;
+			flex: 1;
+		}
+
+		.review-author {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			margin-top: 4px;
+		}
+
+		.review-avatar {
+			width: 40px;
+			height: 40px;
+			border-radius: 50%;
+			background: var(--primary-soft);
+			border: 2px solid var(--border);
+			display: grid;
+			place-items: center;
+			font-size: 1.1rem;
+			flex-shrink: 0;
+		}
+
+		.review-name {
+			font-weight: 700;
+			color: #143f9f;
+			font-size: 0.92rem;
+		}
+
+		.review-role {
+			color: var(--muted);
+			font-size: 0.82rem;
+		}
+
+		.reviews-controls {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: 12px;
+			margin-top: 16px;
+		}
+
+		.rev-btn {
+			border: 2px solid var(--primary);
+			background: #fff;
+			color: var(--primary);
+			border-radius: 50%;
+			width: 38px;
+			height: 38px;
+			display: grid;
+			place-items: center;
+			cursor: pointer;
+			font-size: 1.1rem;
+			transition: background 160ms ease, color 160ms ease;
+		}
+
+		.rev-btn:hover {
+			background: var(--primary);
+			color: #fff;
+		}
+
+		.rev-btn:disabled {
+			opacity: 0.35;
+			cursor: default;
+			pointer-events: none;
+		}
+
+		.reviews-dots {
+			display: flex;
+			gap: 7px;
+			align-items: center;
+		}
+
+		.reviews-dot {
+			width: 8px;
+			height: 8px;
+			border-radius: 50%;
+			background: var(--border);
+			border: none;
+			cursor: pointer;
+			transition: background 160ms ease, transform 160ms ease;
+		}
+
+		.reviews-dot.active {
+			background: var(--primary);
+			transform: scale(1.35);
+		}
+
+		@media (max-width: 680px) {
+			.review-card {
+				flex: 0 0 100%;
+			}
+		}
+
+		@media (max-width: 760px) {
+			.topbar {
+				grid-template-columns: auto 1fr auto;
+				padding: 10px 12px;
+			}
+
+			.logo-wrap span {
+				display: none;
+			}
+
+			.hero-head {
+				padding: 14px;
+			}
+
+			section {
+				padding: 16px;
+			}
+		}
+	</style>
+</head>
+<body>
+	<header class="topbar">
+		<div class="left-zone">
+			<button class="icon-button" id="menuButton" aria-label="Menü öffnen">☰</button>
+			<a class="logo-wrap" href="index.html" aria-label="Startseite">
+				<img src="./images/logo.png" alt="FutureCreator Logo" />
+				<span>FutureCreator</span>
+			</a>
+		</div>
+		<div></div>
+
+		<div class="right-zone">
+			<a class="icon-button" href="product.html" aria-label="Zur Produktseite">🪧</a>
+			<a class="icon-button" href="contact.html" aria-label="Zur Kontaktseite">✉️</a>
+		</div>
+	</header>
+
+	<aside class="drawer" id="drawer" aria-label="Seitennavigation">
+		<h3>Menü</h3>
+		<ul>
+			<li><a href="product.html">Zur Produktseite</a></li>
+			<li><a href="contact.html">Zur Kontaktseite</a></li>
+			<li><a href="#förderung">Förderung</a></li>
+		</ul>
+	</aside>
+	<div class="overlay" id="overlay"></div>
+
+	<main class="container">
+		<section class="hero" aria-label="Hero Carousel">
+			<div class="hero-head">
+				<div>
+					<h1>T1-Xplorer</h1>
+					<p>
+						Mikrocontroller Unterricht einfach im Klassenzimmer umsetzen
+					</p>
+				</div>
+			</div>
+
+			<div class="carousel" id="carousel">
+				<div class="track" id="track">
+					<a class="slide" href="product.html">
+						<img src="./images/i1.jpg" alt="Produkt Impression 1" loading="lazy" />
+					</a>
+					<a class="slide" href="product.html">
+						<img src="./images/i2.jpg" alt="Produkt Impression 2" loading="lazy" />
+					</a>
+					<a class="slide" href="product.html">
+						<img src="./images/i3.jpg" alt="Produkt Impression 3" loading="lazy" />
+					</a>
+				</div>
+				<div class="carousel-controls">
+					<button class="nav-btn" id="prev" aria-label="Vorheriges Bild">‹</button>
+					<button class="nav-btn" id="next" aria-label="Naechstes Bild">›</button>
+				</div>
+			</div>
+
+			<div class="dots" id="dots" aria-label="Slide Navigation"></div>
+		</section>
+
+		<section id="produkte">
+			<h2>Das T1-Xplorer Konzept</h2>
+			<p>
+				T1-Xplorer kombiniert Lernkurs und Hardware-Sets zu einem vollständigen Unterrichtssystem für Mikrocontroller und Robotik.
+			</p>
+			<div class="products-grid">
+
+	<a class="product-card" href="product.html?set=basic#produkt" aria-label="Zum T1-Xplorer Basic Set auf der Produktseite">
+		<img class="product-preview" src="./images/basic.jpg" alt="T1-Xplorer Basic Set" loading="lazy" />
+		<h3>T1-Xplorer Basis Set</h3>
+		<p>
+		Alle wichtigen Komponenten für den Einstieg in Robotik und Mikrocontroller. Perfekt für erste Projekte im Unterricht.
+		</p>
+	</a>
+
+	<a class="product-card" href="product.html?set=advanced#produkt" aria-label="Zum T1-Xplorer Advanced Set auf der Produktseite">
+		<img class="product-preview" src="./images/advanced.jpg" alt="T1-Xplorer Advanced Set" loading="lazy" />
+		<h3>T1-Xplorer Advanced Set</h3>
+		<p>
+		Erweiterte Sensoren und Module für komplexe Projekte. Ideal zur Vertiefung und für fortgeschrittene Anwendungen im Unterricht.
+		</p>
+	</a>
+	<a class="product-card" href="product.html#lernkurs" aria-label="Zum Online-Lernkurs auf der Produktseite">
+		<img class="product-preview" src="./images/i1.jpg" alt="Online-Lernkurs Vorschau" loading="lazy" />
+		<h3>Gratis Online-Lernkurs</h3>
+		<p>
+			Strukturierter Einstieg in die Mikrocontroller-Programmierung mit Schritt-für-Schritt Projekten – ideal zur Vorbereitung auf die Arbeit mit den T1-Xplorer Sets.
+		</p>
+	</a>
+
+</div>
+
+<div class="cta-row">
+	<a class="btn" href="product.html">
+		Alle Produkte ansehen
+	</a>
+</div>
+		</section>
+
+		<section id="förderung">
+			<h2>Übersicht möglicher Förderanträge</h2>
+			<p>
+				Für Schulen, Schulträger und Bildungseinrichtungen stellen wir vorbereitete Unterlagen bereit,
+				die dieselben Dokumente wie auf der Produktseite abbilden und die interne Freigabe erleichtern.
+			</p>
+			<div class="products-grid">
+				<article class="product-card">
+					<div class="product-icon" aria-hidden="true">📄</div>
+					<h3>Förderantrag Vorlage</h3>
+					<p>Ausfüllbare Vorlage mit Projektziel, Kostenaufstellung und didaktischer Begründung.</p>
+				</article>
+				<article class="product-card">
+					<div class="product-icon" aria-hidden="true">📊</div>
+					<h3>Kosten- und Nutzenblatt</h3>
+					<p>Übersicht für Schulträger mit Vergleich Basic vs. Advanced und Laufzeitkosten.</p>
+				</article>
+				<article class="product-card">
+					<div class="product-icon" aria-hidden="true">🛡</div>
+					<h3>Technisches Sicherheitsdatenblatt</h3>
+					<p>Elektrische Sicherheit, Altersfreigaben, Materialdaten und Wartungshinweise.</p>
+				</article>
+				<article class="product-card">
+					<div class="product-icon" aria-hidden="true">🧭</div>
+					<h3>Lehrplan-Mapping</h3>
+					<p>Zuordnung der Lernmodule zu MINT-Kompetenzen, Unterrichtseinheiten und Lernzielen.</p>
+				</article>
+			</div>
+			<div class="cta-row">
+				<a class="btn" href="product.html#dokumente">
+					Fördermöglichkeiten ansehen
+				</a>
+			</div>
+		</section>
+
+		<section id="bewertungen">
+			<h2>Das sagen unsere Nutzer</h2>
+			<p>Lehrer, Ausbilder und Schüler berichten von ihren Erfahrungen mit dem T1-Xplorer.</p>
+			<div class="reviews-outer">
+				<div class="reviews-track" id="reviewsTrack">
+					<div class="review-card">
+						<div class="review-stars">★★★★★</div>
+						<p class="review-text">"Das Basic Set hat meinen Schülerinnen und Schülern einen brillanten Einstieg in die Welt der Mikrocontroller ermöglicht. Die Anleitungen sind klar und die Bauteile qualitativ hochwertig."</p>
+						<div class="review-author">
+							<div class="review-avatar" aria-hidden="true">👩‍🏫</div>
+							<div>
+								<div class="review-name">Sandra K.</div>
+								<div class="review-role">Lehrerin, Realschule München</div>
+							</div>
+						</div>
+					</div>
+					<div class="review-card">
+						<div class="review-stars">★★★★★</div>
+						<p class="review-text">"Der Online-Lernkurs ist genial aufgebaut. Meine Auszubildenden haben innerhalb einer Woche ihren ersten Roboter gebaut und programmiert. Absolut empfehlenswert!"</p>
+						<div class="review-author">
+							<div class="review-avatar" aria-hidden="true">👨‍🔧</div>
+							<div>
+								<div class="review-name">Thomas R.</div>
+								<div class="review-role">Ausbilder, IHK-Betrieb Stuttgart</div>
+							</div>
+						</div>
+					</div>
+					<div class="review-card">
+						<div class="review-stars">★★★★★</div>
+						<p class="review-text">"Mit dem Advanced Set konnten wir im Wahlpflichtfach Technik vollständig auf eigenständige Schülerexperimente umsteigen. Die Materialien decken genau den Lehrplan ab."</p>
+						<div class="review-author">
+							<div class="review-avatar" aria-hidden="true">👨‍🏫</div>
+							<div>
+								<div class="review-name">Markus F.</div>
+								<div class="review-role">Fachlehrer MINT, Gymnasium Hamburg</div>
+							</div>
+						</div>
+					</div>
+					<div class="review-card">
+						<div class="review-stars">★★★★★</div>
+						<p class="review-text">"Ich habe das Set als Geburtstagsgeschenk bekommen und seitdem nicht mehr aufgehört zu basteln. Die Live-Q&amp;A Sessions im Kurs sind das Beste &ndash; echte Experten, die sofort helfen."</p>
+						<div class="review-author">
+							<div class="review-avatar" aria-hidden="true">🧑‍💻</div>
+							<div>
+								<div class="review-name">Lena M., 16</div>
+								<div class="review-role">Schülerin, privat</div>
+							</div>
+						</div>
+					</div>
+					<div class="review-card">
+						<div class="review-stars">★★★★☆</div>
+						<p class="review-text">"Die Förderdokumente haben uns die Beantragung von Digitalmitteln extrem erleichtert. Alles war fertig aufbereitet und passte direkt zum bayerischen Förderprogramm."</p>
+						<div class="review-author">
+							<div class="review-avatar" aria-hidden="true">👩‍💼</div>
+							<div>
+								<div class="review-name">Dr. Petra W.</div>
+								<div class="review-role">Schulleitung, Mittelschule Augsburg</div>
+							</div>
+						</div>
+					</div>
+					<div class="review-card">
+						<div class="review-stars">★★★★★</div>
+						<p class="review-text">"Unser gesamter Jahrgang hat das Basic Set verwendet. Die Sicherheitsdatenblätter haben die Elternzustimmung problemlos ermöglicht. Rundum ein professionelles Produkt."</p>
+						<div class="review-author">
+							<div class="review-avatar" aria-hidden="true">👨‍🎓</div>
+							<div>
+								<div class="review-name">Stefan B.</div>
+								<div class="review-role">Klassenlehrer, Berufsschule Nürnberg</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="reviews-controls">
+				<button class="rev-btn" id="revPrev" aria-label="Zurueck">&#8592;</button>
+				<div class="reviews-dots" id="reviewsDots"></div>
+				<button class="rev-btn" id="revNext" aria-label="Weiter">&#8594;</button>
+			</div>
+		</section>
+
+		
+
+		<section id="ueber-uns">
+			<h2>Über uns</h2>
+			<p>
+				Das T1-Xplorer Projekt ist das Produkt eines Schulprojektes einer Berufsbildenden Schule, welches bereits mit einigen Preisen des Kultus Ministeriums ausgezeichnet wurde. Unser Ziel ist es, die Begeisterung für Technik und Digitalisierung in Schulen zu fördern und einen praxisnahen Zugang zu bieten.
+			</p>
+		</section>
+
+		
+
+		<section id="kontakt">
+			<h2>Kontakt</h2>
+			<p>
+				Du hast Fragen zu einem Produkt, einem Angebot oder einer Zusammenarbeit?
+				Schreib uns direkt und wir melden uns zeitnah mit einer konkreten Empfehlung.
+			</p>
+			<div class="cta-row">
+				<a class="btn primary" href="contact.html">Jetzt Kontakt aufnehmen</a>
+			</div>
+		</section>
+
+		<footer class="footer">
+			<div class="footer-links">
+				<a href="impressum.html" aria-label="Impressum anzeigen">Impressum</a>
+				<a href="datenschutz.html" aria-label="Datenschutz anzeigen">Datenschutz</a>
+			</div>
+			<div>Kontakt: hello@futurecreator.example | +49 30 1234 5678 | FutureCreator GmbH, Berlin</div>
+			<div>&copy; 2026 FutureCreator. Alle Rechte vorbehalten.</div>
+		</footer>
+	</main>
+
+	<script>
+		const menuButton = document.getElementById("menuButton");
+		const drawer = document.getElementById("drawer");
+		const overlay = document.getElementById("overlay");
+
+		const setMenu = (open) => {
+			drawer.classList.toggle("open", open);
+			overlay.classList.toggle("show", open);
+			menuButton.setAttribute("aria-expanded", String(open));
+		};
+
+		menuButton.addEventListener("click", () => {
+			setMenu(!drawer.classList.contains("open"));
+		});
+
+		overlay.addEventListener("click", () => setMenu(false));
+
+		drawer.querySelectorAll("a").forEach((link) => {
+			link.addEventListener("click", () => setMenu(false));
+		});
+
+		const track = document.getElementById("track");
+		const slides = Array.from(track.children);
+		const dotsContainer = document.getElementById("dots");
+		const prev = document.getElementById("prev");
+		const next = document.getElementById("next");
+		const carousel = document.getElementById("carousel");
+		let index = 0;
+		let startX = 0;
+		let moveX = 0;
+		let isDragging = false;
+
+		slides.forEach((_, i) => {
+			const dot = document.createElement("button");
+			dot.className = "dot";
+			dot.type = "button";
+			dot.setAttribute("aria-label", "Slide " + (i + 1));
+			dot.addEventListener("click", () => goTo(i));
+			dotsContainer.appendChild(dot);
+		});
+
+		const dots = Array.from(dotsContainer.children);
+
+		function paint() {
+			track.style.transform = "translateX(" + -index * 100 + "%)";
+			dots.forEach((dot, i) => dot.classList.toggle("active", i === index));
+		}
+
+		function goTo(i) {
+			index = (i + slides.length) % slides.length;
+			paint();
+		}
+
+		prev.addEventListener("click", () => goTo(index - 1));
+		next.addEventListener("click", () => goTo(index + 1));
+
+		carousel.addEventListener("pointerdown", (event) => {
+			isDragging = true;
+			startX = event.clientX;
+			moveX = 0;
+			track.style.transition = "none";
+			carousel.style.cursor = "grabbing";
+		});
+
+		carousel.addEventListener("pointermove", (event) => {
+			if (!isDragging) {
+				return;
+			}
+			moveX = event.clientX - startX;
+			const dragPercent = (moveX / carousel.clientWidth) * 100;
+			track.style.transform = "translateX(" + (-index * 100 + dragPercent) + "%)";
+		});
+
+		function stopDrag() {
+			if (!isDragging) {
+				return;
+			}
+			isDragging = false;
+			track.style.transition = "transform 360ms ease";
+			carousel.style.cursor = "grab";
+
+			if (moveX < -60) {
+				goTo(index + 1);
+			} else if (moveX > 60) {
+				goTo(index - 1);
+			} else {
+				paint();
+			}
+		}
+
+		carousel.addEventListener("pointerup", stopDrag);
+		carousel.addEventListener("pointercancel", stopDrag);
+		carousel.addEventListener("pointerleave", stopDrag);
+
+		paint();
+
+		// Reviews Carousel
+		const reviewsTrack = document.getElementById("reviewsTrack");
+		const reviewCards = Array.from(reviewsTrack.children);
+		const reviewsDots = document.getElementById("reviewsDots");
+		const revPrev = document.getElementById("revPrev");
+		const revNext = document.getElementById("revNext");
+
+		const getRevsPerView = () => window.innerWidth <= 680 ? 1 : 2;
+
+		let revIndex = 0;
+
+		const buildRevDots = () => {
+			const perView = getRevsPerView();
+			const total = Math.ceil(reviewCards.length / perView);
+			reviewsDots.innerHTML = "";
+			for (let i = 0; i < total; i++) {
+				const dot = document.createElement("button");
+				dot.className = "reviews-dot" + (i === 0 ? " active" : "");
+				dot.setAttribute("aria-label", `Seite ${i + 1}`);
+				dot.addEventListener("click", () => goToRev(i));
+				reviewsDots.appendChild(dot);
+			}
+		};
+
+		const goToRev = (i) => {
+			const perView = getRevsPerView();
+			const maxIndex = Math.ceil(reviewCards.length / perView) - 1;
+			revIndex = Math.max(0, Math.min(i, maxIndex));
+			const cardWidth = reviewCards[0].offsetWidth + 16;
+			reviewsTrack.style.transform = `translateX(-${revIndex * perView * cardWidth}px)`;
+			reviewsDots.querySelectorAll(".reviews-dot").forEach((d, j) => {
+				d.classList.toggle("active", j === revIndex);
+			});
+			revPrev.disabled = revIndex === 0;
+			revNext.disabled = revIndex >= maxIndex;
+		};
+
+		revPrev.addEventListener("click", () => goToRev(revIndex - 1));
+		revNext.addEventListener("click", () => goToRev(revIndex + 1));
+
+		let revResizeTimer;
+		window.addEventListener("resize", () => {
+			clearTimeout(revResizeTimer);
+			revResizeTimer = setTimeout(() => { buildRevDots(); goToRev(0); }, 120);
+		});
+
+		buildRevDots();
+		goToRev(0);
+	</script>
+</body>
+</html>
