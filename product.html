@@ -642,6 +642,21 @@
 			margin: 0;
 		}
 
+		.carousel-link {
+			text-decoration: none;
+			color: inherit;
+		}
+
+		.carousel-link:hover {
+			border-color: #8fb1ff;
+			background: #f2f7ff;
+		}
+
+		.carousel-link:focus-visible {
+			outline: none;
+			box-shadow: var(--ring);
+		}
+
 		.carousel-controls {
 			display: flex;
 			align-items: center;
@@ -887,43 +902,6 @@
 			</div>
 		</section>
 
-		<section class="section" id="dokumente">
-			<h2>Dokumente für Schulbehördliche Förderung</h2>
-			<p>
-				Diese Unterlagen helfen bei der Beantragung von Fördermitteln, bei internen Freigaben
-				und bei der schulischen Projektplanung.
-			</p>
-			<div class="features">
-				<article class="feature">
-					<h3>Förderantrag Vorlage</h3>
-					<p>Ausfüllbare Vorlage mit Projektziel, Kostenaufstellung und didaktischer Begründung.</p>
-					<div class="cta-row">
-						<a class="btn" href="#" aria-label="Förderantrag herunterladen">PDF herunterladen</a>
-					</div>
-				</article>
-				<article class="feature">
-					<h3>Kosten- und Nutzenblatt</h3>
-					<p>Übersicht für Schulträger mit Vergleich Basic vs. Advanced und Laufzeitkosten.</p>
-					<div class="cta-row">
-						<a class="btn" href="#" aria-label="Kostenblatt herunterladen">PDF herunterladen</a>
-					</div>
-				</article>
-				<article class="feature">
-					<h3>Technisches Sicherheitsdatenblatt</h3>
-					<p>Elektrische Sicherheit, Altersfreigaben, Materialdaten und Wartungshinweise.</p>
-					<div class="cta-row">
-						<a class="btn" href="#" aria-label="Sicherheitsdatenblatt herunterladen">PDF herunterladen</a>
-					</div>
-				</article>
-				<article class="feature">
-					<h3>Lehrplan-Mapping</h3>
-					<p>Zuordnung der Lernmodule zu MINT-Kompetenzen, Unterrichtseinheiten und Lernzielen.</p>
-					<div class="cta-row">
-						<a class="btn" href="#" aria-label="Lehrplan Mapping herunterladen">PDF herunterladen</a>
-					</div>
-				</article>
-			</div>
-		</section>
 
 		<section class="section" id="angebot">
 			<h2>Angebot anfragen</h2>
@@ -1011,19 +989,33 @@
 				image: "./images/basic.jpg",
 				basePrice: 52.99,
 				courses: [ 
-					{ label: "Modul 1", title: "Electric Lighting", text: "Einbau und Ansteuerung der Beleuchtung im T1. LEDs werden angeschlossen, programmiert und über verschiedene Modi individuell gesteuert." },
+					{ 
+						link: "https://xplore-dna.net/course/view.php?id=157",
+						label: "Modul 1", title: "Electric Lighting", text: "Einbau und Ansteuerung der Beleuchtung im T1. LEDs werden angeschlossen, programmiert und über verschiedene Modi individuell gesteuert." },
 
-					{ label: "Modul 2", title: "Sounds", text: "Integration von akustischen Signalen im T1. Summer und Soundmodule werden programmiert, um Warnungen, Effekte und Rückmeldungen zu erzeugen." },
+					{ 
+						 link: "https://xplore-dna.net/course/view.php?id=158",
+						label: "Modul 2", title: "Sounds", text: "Integration von akustischen Signalen im T1. Summer und Soundmodule werden programmiert, um Warnungen, Effekte und Rückmeldungen zu erzeugen." },
 
-					{ label: "Modul 3", title: "Sensors", text: "Einbau eines Bewegungssensors im T1. Bewegungen werden erkannt und lösen automatisch Licht- oder Soundsignale aus." },
+					{ 
+						link: "https://xplore-dna.net/course/view.php?id=163",
+						label: "Modul 3", title: "Sensors", text: "Einbau eines Bewegungssensors im T1. Bewegungen werden erkannt und lösen automatisch Licht- oder Soundsignale aus." },
 
-					{ label: "Modul 4", title: "Monitoring", text: "Temperaturüberwachung im T1. Anzeige erfolgt über Zeiger und 4-stelliges 7-Segment-Display sowie zusätzlich im seriellen Monitor." },
+					{ 
+						link: "https://xplore-dna.net/course/view.php?id=159",
+						label: "Modul 4", title: "Monitoring", text: "Temperaturüberwachung im T1. Anzeige erfolgt über Zeiger und 4-stelliges 7-Segment-Display sowie zusätzlich im seriellen Monitor." },
 
-					{ label: "Modul 5", title: "Internet of Things", text: "Temperaturdaten werden per WLAN an ThingSpeak gesendet und online visualisiert. Werte sind im Browser als Diagramm abrufbar." },
+					{ 
+						link: "https://xplore-dna.net/course/view.php?id=160",
+						label: "Modul 5", title: "Internet of Things", text: "Temperaturdaten werden per WLAN an ThingSpeak gesendet und online visualisiert. Werte sind im Browser als Diagramm abrufbar." },
 
-					{ label: "Modul 6", title: "RGB Tuning", text: "RGB-Unterbodenbeleuchtung per Bluetooth-App steuern. Farben wählen oder Automatikmodus nutzen, der die Farbe an die Temperatur anpasst." },
+					{ 
+						link: "https://xplore-dna.net/course/view.php?id=203",
+						label: "Modul 6", title: "RGB Tuning", text: "RGB-Unterbodenbeleuchtung per Bluetooth-App steuern. Farben wählen oder Automatikmodus nutzen, der die Farbe an die Temperatur anpasst." },
 
-					{ label: "Bonus", title: "T1-eco", text: "Temperatur- und Feuchtigkeitswerte werden online übertragen. Optional: automatische E-Mail-Benachrichtigung über IFTTT bei Grenzwerten." }
+					{ 
+						link: "https://xplore-dna.net/course/view.php?id=517",
+						label: "Bonus", title: "T1-eco", text: "Temperatur- und Feuchtigkeitswerte werden online übertragen. Optional: automatische E-Mail-Benachrichtigung über IFTTT bei Grenzwerten." }
 				],
 				parts: [
 					{ title: "T1-Bauset", image: "./images/parts/t1.jpg", text: "1x T1 Core Board mit USB-C Anschluss, WLAN und Bluetooth." },
@@ -1043,17 +1035,29 @@
 				image: "./images/advanced.jpg",
 				basePrice: 59.99,
 				courses: [
-					{ label: "Module 1-6", title: "Alle Module Basic", text: "Enthält die Module 1 bis 6 des Basic Sets mit den Grundlagen zu Sensoren, Beleuchtung, Sounds, Monitoring und IoT." },
+					{
+						link: "https://xplore-dna.net/course/index.php?categoryid=70",
+						 label: "Module 1-6", title: "Alle Module Basic", text: "Enthält die Module 1 bis 6 des Basic Sets mit den Grundlagen zu Sensoren, Beleuchtung, Sounds, Monitoring und IoT." },
 
-					{ label: "Modul 7", title: "Distance Control", text: "Distanzmessung mit Ultraschallsensor. Motor wird per PWM gesteuert, Anzeige erfolgt über das 7-Segment-Display." },
+					{ 
+						link: "https://xplore-dna.net/course/view.php?id=202",
+						label: "Modul 7", title: "Distance Control", text: "Distanzmessung mit Ultraschallsensor. Motor wird per PWM gesteuert, Anzeige erfolgt über das 7-Segment-Display." },
 
-					{ label: "Modul 8", title: "Plant", text: "Automatische Pflanzenbewässerung mit Bodenfeuchtesensor. Optische Warnung und Aktivierung der Bewässerung." },
+					{ 
+						link: "https://xplore-dna.net/course/view.php?id=207",
+						label: "Modul 8", title: "Plant", text: "Automatische Pflanzenbewässerung mit Bodenfeuchtesensor. Optische Warnung und Aktivierung der Bewässerung." },
 
-					{ label: "Modul 9", title: "Clock", text: "Darstellung der aktuellen Uhrzeit in binärer Form. Umsetzung mit LEDs und Programmierung der Zeitlogik." },
+					{ 
+						link: "https://xplore-dna.net/course/view.php?id=244",
+						label: "Modul 9", title: "Clock", text: "Darstellung der aktuellen Uhrzeit in binärer Form. Umsetzung mit LEDs und Programmierung der Zeitlogik." },
 
-					{ label: "Modul 10", title: "Remote", text: "Infrarot-Fernsteuerung für den T1. Steuerung per Fernbedienung mit optionaler Freigabe über RFID." },
+					{
+						link: "https://xplore-dna.net/course/view.php?id=164",
+						 label: "Modul 10", title: "Remote", text: "Infrarot-Fernsteuerung für den T1. Steuerung per Fernbedienung mit optionaler Freigabe über RFID." },
 
-					{ label: "Modul 11", title: "Smart", text: "App-Steuerung per Bluetooth. Verbindung zwischen ESP32 im T1 und Smartphone zur Fahrzeugsteuerung." }
+					{ 
+						link: "https://xplore-dna.net/course/view.php?id=161",
+						label: "Modul 11", title: "Smart", text: "App-Steuerung per Bluetooth. Verbindung zwischen ESP32 im T1 und Smartphone zur Fahrzeugsteuerung." }
 				],
 				parts: [
 					{ title: "T1-Bauset", image: "./images/parts/t1.jpg", text: "1x T1 Core Board mit USB-C Anschluss, WLAN und Bluetooth." },
@@ -1184,11 +1188,11 @@
 			courseTrack.innerHTML = courses
 				.map(
 					(course) => `
-						<div class="carousel-slide">
+						<a class="carousel-slide carousel-link" href="${course.link}" target="_blank" rel="noopener noreferrer" aria-label="${course.label}: ${course.title}">
 							<span class="slide-num">${course.label}</span>
 							<h3>${course.title}</h3>
 							<p>${course.text}</p>
-						</div>
+						</a>
 					`
 				)
 				.join("");
