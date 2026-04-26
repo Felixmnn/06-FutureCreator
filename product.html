@@ -531,6 +531,7 @@
 			border-radius: 12px;
 			padding: 14px;
 			background: #f9fbff;
+			min-width: 0;
 		}
 
 		.feature-details {
@@ -540,8 +541,9 @@
 		}
 
 		.feature-details-img {
-			width: 88px;
-			height: 88px;
+			width: 120px;
+			height: auto;
+			aspect-ratio: 3 / 2;
 			object-fit: cover;
 			border-radius: 10px;
 			border: 1px solid var(--border);
@@ -568,6 +570,11 @@
 			display: grid;
 			grid-template-columns: 400px 1fr;
 			gap: 14px;
+			min-width: 0;
+		}
+
+		.part-preview > div {
+			min-width: 0;
 		}
 
 		.part-preview img {
@@ -685,6 +692,19 @@
 			line-height: 1.55;
 			font-size: 0.92rem;
 			margin: 0;
+		}
+
+		.feature h3,
+		.feature p,
+		.part-preview h3,
+		.part-preview p,
+		.carousel-slide h3,
+		.carousel-slide p,
+		.price-chip,
+		.offer-quick,
+		.price-note {
+			overflow-wrap: anywhere;
+			word-break: break-word;
 		}
 
 		.carousel-link {
@@ -956,7 +976,7 @@
 			<h2>Angebot anfragen</h2>
 			<p>
 				Für ein verbindliches Angebot wähle hier nur die gewünschte Menge, kopiere die Vorlage
-				und sende sie per E-Mail an <strong>hello@futurecreator.example</strong>.
+				und sende sie per E-Mail an <strong>sdgfuturecreator@gmail.com</strong>.
 			</p>
 
 			<div class="selection-grid">
@@ -998,7 +1018,7 @@
 				<a href="datenschutz.html" aria-label="Datenschutz anzeigen">Datenschutz</a>
 				<a href="agb.html" aria-label="AGB anzeigen">AGB</a>
 			</div>
-			<div>Kontakt: hello@futurecreator.example | +49 30 1234 5678 | FutureCreator GmbH, Berlin</div>
+			<div>Kontakt: sdgfuturecreator@gmail.com | +49 160 98666018 </div>
 			<div>&copy; 2026 FutureCreator. Alle Rechte vorbehalten.</div>
 		</footer>
 	</main>
