@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>FutureCreator | AGB</title>
+	<style>
+		:root {
+			--bg: #fdfefe;
+			--primary: #0f4fd6;
+			--primary-soft: #dce8ff;
+			--text: #0d1b2a;
+			--border: #bdd2ff;
+			--ring: 0 0 0 3px rgba(15, 79, 214, 0.18);
+			--radius: 18px;
+			--shadow: 0 20px 45px rgba(13, 27, 42, 0.08);
+		}
+
+		* {
+			box-sizing: border-box;
+			margin: 0;
+			padding: 0;
+		}
+
+		body {
+			font-family: "Segoe UI", "Trebuchet MS", sans-serif;
+			color: var(--text);
+			background:
+				radial-gradient(circle at 88% 3%, #d8e7ff 0, transparent 24%),
+				radial-gradient(circle at 4% 20%, #f1f7ff 0, transparent 26%),
+				var(--bg);
+			min-height: 100vh;
+		}
+
+		.topbar {
+			position: sticky;
+			top: 0;
+			z-index: 20;
+			background: rgba(255, 255, 255, 0.92);
+			backdrop-filter: blur(8px);
+			border-bottom: 1px solid var(--border);
+			display: grid;
+			grid-template-columns: 1fr auto 1fr;
+			align-items: center;
+			padding: 14px 20px;
+		}
+
+		.left-zone,
+		.right-zone {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+		}
+
+		.right-zone {
+			justify-content: flex-end;
+		}
+
+		.icon-button {
+			border: 2px solid var(--primary);
+			background: #fff;
+			color: var(--primary);
+			border-radius: 12px;
+			width: 44px;
+			height: 44px;
+			display: grid;
+			place-items: center;
+			cursor: pointer;
+			transition: transform 160ms ease, background 160ms ease;
+			text-decoration: none;
+			font-weight: 700;
+			font-size: 1rem;
+		}
+
+		.icon-button:hover {
+			transform: translateY(-2px);
+			background: var(--primary-soft);
+		}
+
+		.icon-button:focus-visible {
+			outline: none;
+			box-shadow: var(--ring);
+		}
+
+		.logo-wrap {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			gap: 10px;
+			text-decoration: none;
+			color: var(--text);
+			font-weight: 700;
+			letter-spacing: 0.5px;
+		}
+
+		.logo-wrap img {
+			width: 48px;
+			height: 48px;
+			object-fit: contain;
+			border-radius: 10px;
+			border: 1px solid var(--border);
+			padding: 4px;
+			background: #fff;
+		}
+
+		.drawer {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 290px;
+			max-width: 84vw;
+			height: 100vh;
+			background: #fff;
+			border-right: 2px solid var(--border);
+			transform: translateX(-102%);
+			transition: transform 220ms ease;
+			z-index: 30;
+			padding: 24px 18px;
+			box-shadow: var(--shadow);
+		}
+
+		.drawer.open {
+			transform: translateX(0);
+		}
+
+		.drawer h3 {
+			margin-bottom: 14px;
+			color: var(--primary);
+		}
+
+		.drawer ul {
+			list-style: none;
+			display: grid;
+			gap: 10px;
+		}
+
+		.drawer a {
+			display: block;
+			padding: 10px 12px;
+			border: 1px solid var(--border);
+			border-radius: 10px;
+			text-decoration: none;
+			color: var(--text);
+			font-weight: 600;
+		}
+
+		.drawer a:hover {
+			background: var(--primary-soft);
+		}
+
+		.overlay {
+			position: fixed;
+			inset: 0;
+			background: rgba(13, 27, 42, 0.35);
+			opacity: 0;
+			pointer-events: none;
+			transition: opacity 200ms ease;
+			z-index: 25;
+		}
+
+		.overlay.show {
+			opacity: 1;
+			pointer-events: auto;
+		}
+
+		.container {
+			width: min(900px, 92vw);
+			margin: 0 auto;
+			padding: 28px 0 64px;
+		}
+
+		.info-box {
+			border: 2px solid var(--border);
+			border-radius: var(--radius);
+			padding: 24px;
+			background: #fff;
+			box-shadow: var(--shadow);
+		}
+
+		.info-box h1 {
+			color: var(--primary);
+			margin-bottom: 12px;
+			font-size: clamp(1.5rem, 2.6vw, 2rem);
+		}
+
+		.info-box h2 {
+			color: #1440a2;
+			font-size: 1.05rem;
+			margin: 20px 0 8px;
+		}
+
+		.info-box p {
+			color: #3a4a5f;
+			line-height: 1.7;
+			margin-bottom: 10px;
+		}
+
+		.footer {
+			margin-top: 24px;
+			padding: 18px;
+			border: 2px solid var(--border);
+			border-radius: var(--radius);
+			background: #fff;
+			box-shadow: var(--shadow);
+			display: grid;
+			gap: 8px;
+			text-align: center;
+			color: #3a4a5f;
+			font-size: 0.9rem;
+		}
+
+		.footer-links {
+			display: flex;
+			justify-content: center;
+			gap: 14px;
+			flex-wrap: wrap;
+		}
+
+		.footer-links a {
+			color: var(--primary);
+			text-decoration: none;
+			font-weight: 700;
+		}
+
+		.footer-links a:hover {
+			text-decoration: underline;
+		}
+
+		@media (max-width: 760px) {
+			.topbar {
+				grid-template-columns: auto 1fr auto;
+				padding: 10px 12px;
+			}
+
+			.logo-wrap span {
+				display: none;
+			}
+
+			.info-box {
+				padding: 16px;
+			}
+		}
+	</style>
+</head>
+<body>
+	<header class="topbar">
+		<div class="left-zone">
+			<button class="icon-button" id="menuButton" aria-label="Menü öffnen">☰</button>
+			<a class="logo-wrap" href="index.html" aria-label="Startseite">
+				<img src="./images/logo.png" alt="FutureCreator Logo" />
+				<span>FutureCreator</span>
+			</a>
+		</div>
+		<div></div>
+		<div class="right-zone">
+			<a class="icon-button" href="index.html" aria-label="Zur Startseite">🏠</a>
+			<a class="icon-button" href="contact.html" aria-label="Zur Kontaktseite">✉️</a>
+		</div>
+	</header>
+
+	<aside class="drawer" id="drawer" aria-label="Seitennavigation">
+		<h3>Menü</h3>
+		<ul>
+			<li><a href="index.html">Startseite</a></li>
+			<li><a href="product.html">Produktseite</a></li>
+			<li><a href="contact.html">Kontakt</a></li>
+			<li><a href="impressum.html">Impressum</a></li>
+			<li><a href="datenschutz.html">Datenschutz</a></li>
+			<li><a href="agb.html">AGB</a></li>
+		</ul>
+	</aside>
+	<div class="overlay" id="overlay"></div>
+
+	<main class="container">
+		<section class="info-box">
+			<h1>AGB</h1>
+
+			<h2>1. Geltungsbereich</h2>
+			<p>Für alle Bestellungen über unseren Online-Shop durch Verbraucher und Unternehmer gelten die nachfolgenden AGB.</p>
+			<p>Verbraucher ist jede natürliche Person, die ein Rechtsgeschäft zu Zwecken abschließt, die überwiegend weder ihrer gewerblichen noch ihrer selbständigen beruflichen Tätigkeit zugerechnet werden können. Unternehmer ist eine natürliche oder juristische Person oder eine rechtsfähige Personengesellschaft, die bei Abschluss eines Rechtsgeschäfts in Ausübung ihrer gewerblichen oder selbständigen beruflichen Tätigkeit handelt.</p>
+			<p>Gegenüber Unternehmern gelten diese AGB auch für künftige Geschäftsbeziehungen, ohne dass wir nochmals auf sie hinweisen müssten. Verwendet der Unternehmer entgegenstehende oder ergänzende Allgemeine Geschäftsbedingungen, wird deren Geltung hiermit widersprochen; sie werden nur dann Vertragsbestandteil, wenn wir dem ausdrücklich zugestimmt haben.</p>
+
+			<h2>2. Vertragspartner</h2>
+			<p>Der Kaufvertrag kommt zustande mit Future Creator GmbH ("wir", "uns" und "unser").</p>
+
+			<h2>3. Zustandekommen des Vertrags</h2>
+			<p>Die Darstellung der Produkte im Online-Shop stellt kein rechtlich bindendes Angebot, sondern einen unverbindlichen Online-Katalog dar. Sie können unsere Produkte zunächst unverbindlich in den Warenkorb legen und Ihre Eingaben vor dem Absenden Ihrer verbindlichen Bestellung jederzeit korrigieren, indem Sie die hierfür im Bestellablauf vorgesehenen und erläuterten Korrekturhilfen nutzen. Durch Anklicken des Bestellbuttons geben Sie eine verbindliche Bestellung der im Warenkorb enthaltenen Waren ab. Die Bestätigung des Zugangs Ihrer Bestellung erfolgt per E-Mail unmittelbar nach dem Absenden der Bestellung.</p>
+			<p>Wann der Vertrag mit uns durch unsere Annahme Ihres verbindlichen Angebots zustande kommt, hängt von der von Ihnen gewählten Zahlungsart ab (siehe unten). In Fällen offensichtlicher Fehler (z. B. unplausibel niedriger Preis) behalten wir uns das Recht vor, solche Verträge zu kündigen, wenn die Ausführung für uns unzumutbar wäre.</p>
+			<p>Rechnung: Wir nehmen Ihre Bestellung durch den Versand einer Annahmeerklärung in einer separaten E-Mail oder durch die Auslieferung der Ware innerhalb von zwei Tagen an.</p>
+			<p>Kreditkarte: Mit Abgabe der Bestellung übermitteln Sie uns gleichzeitig Ihre Kreditkartendaten. Nach Ihrer Legitimation als rechtmäßiger Karteninhaber fordern wir Ihr Kreditkartenunternehmen zur Einleitung der Zahlungstransaktion auf und nehmen dadurch Ihr Angebot an.</p>
+			<p>PayPal Express: Im Bestellprozess werden Sie auf die Webseite des Online-Anbieters PayPal weitergeleitet. Dort können Sie Ihre Zahlungsdaten angeben und die Zahlungsanweisung an PayPal bestätigen. Nach Abgabe der Bestellung im Shop fordern wir PayPal zur Einleitung der Zahlungstransaktion auf und nehmen dadurch Ihr Angebot an.</p>
+			<p>Sofort: Nach Abgabe der Bestellung werden Sie auf die Webseite des Online-Anbieters Sofort GmbH weitergeleitet, wo Sie die Zahlungsanweisung bestätigen. Dadurch kommt der Vertrag mit uns zustande. Bei der Bezahlung mit Sofort kann es bis zu 14 Tage dauern, bis der Zahlungsdienstleister die Zahlung an uns bestätigt. Die Bestellung wird erst danach versendet.</p>
+			<p>Abholung: Eine Abholung Ihrer Bestellung ist vor Ort leider nicht möglich.</p>
+			<p>Zahlung per SEPA-Lastschrift: Der Käufer kann der Future Creator GmbH ein SEPA-Basis-Mandat erteilen. Die Frist für die Vorabankündigung (Pre-Notification) wird auf einen Tag verkürzt. Der Käufer sichert zu, für die Deckung des Kontos zu sorgen. Kosten, die aufgrund von Nichteinlösung oder Rückbuchung der Lastschrift entstehen, gehen zu Lasten des Käufers, solange die Nichteinlösung oder die Rückbuchung nicht durch die Future Creator GmbH verursacht wurde.</p>
+
+			<h2>4. Vertragssprache, Vertragstextspeicherung</h2>
+			<p>Die für den Vertragsschluss zur Verfügung stehenden Sprachen sind Deutsch und Englisch. Wir speichern den Vertragstext und senden Ihnen die Bestelldaten und unsere AGB per E-Mail zu. Der Vertragstext ist aus Sicherheitsgründen nicht mehr über das Internet zugänglich.</p>
+
+			<h2>5. Lieferbedingungen</h2>
+			<p>Zuzüglich zu den angegebenen Produktpreisen kommen noch Versandkosten hinzu. Näheres zur Höhe der Versandkosten erfahren Sie bei den Angeboten. Wenn sich Ihre Lieferadresse außerhalb der EU befindet, kann Ihre Lieferung außerdem Einfuhrzöllen und -steuern unterliegen, die erhoben werden, sobald die Lieferung Ihr Land erreicht. Diese sind nicht in dem von uns berechneten Endpreis enthalten. Sie sind für die Zahlung aller zusätzlichen Gebühren für die Zollabfertigung verantwortlich. Wir empfehlen Ihnen, sich für weitere Informationen an Ihr örtliches Zollamt zu wenden.</p>
+
+			<h2>6. Bezahlung</h2>
+			<p>In unserem Shop stehen Ihnen grundsätzlich die folgenden Zahlungsarten zur Verfügung:</p>
+			<p>Kreditkarte: Mit Abgabe der Bestellung übermitteln Sie uns gleichzeitig Ihre Kreditkartendaten. Nach Ihrer Legitimation als rechtmäßiger Karteninhaber fordern wir unmittelbar nach der Bestellung Ihr Kreditkartenunternehmen zur Einleitung der Zahlungstransaktion auf. Die Zahlungstransaktion wird durch das Kreditkartenunternehmen automatisch durchgeführt und Ihre Karte belastet.</p>
+			<p>PayPal Express: Im Bestellprozess werden Sie auf die Webseite des Online-Anbieters PayPal weitergeleitet. Um den Rechnungsbetrag über PayPal bezahlen zu können, müssen Sie dort registriert sein bzw. sich erst registrieren, mit Ihren Zugangsdaten legitimieren und die Zahlungsanweisung an uns bestätigen. Nach Abgabe der Bestellung im Shop fordern wir PayPal zur Einleitung der Zahlungstransaktion auf.</p>
+			<p>Sofort: Nach Abgabe der Bestellung werden Sie auf die Webseite des Online-Anbieters Sofort GmbH weitergeleitet. Um den Rechnungsbetrag über Sofort bezahlen zu können, müssen Sie über ein für die Teilnahme an Sofort freigeschaltetes Online-Banking-Konto mit PIN/TAN-Verfahren verfügen, sich entsprechend legitimieren und die Zahlungsanweisung an uns bestätigen. Weitere Hinweise erhalten Sie beim Bestellvorgang. Die Zahlungstransaktion wird unmittelbar danach von Sofort durchgeführt und Ihr Konto belastet.</p>
+			<p>Rechnung: Sie zahlen den Rechnungsbetrag nach Erhalt der Ware und der Rechnung per Überweisung auf unser Bankkonto. Wir behalten uns vor, den Kauf auf Rechnung nur nach einer erfolgreichen Bonitätsprüfung anzubieten.</p>
+
+			<h2>7. Eigentumsvorbehalt</h2>
+			<p>Die Ware bleibt bis zur vollständigen Bezahlung unser Eigentum.</p>
+			<p>Für Unternehmer gilt ergänzend: Wir behalten uns das Eigentum an der Ware bis zur vollständigen Begleichung aller Forderungen aus einer laufenden Geschäftsbeziehung vor. Sie dürfen die Vorbehaltsware im ordentlichen Geschäftsbetrieb weiterveräußern; sämtliche aus diesem Weiterverkauf entstehenden Forderungen treten Sie – unabhängig von einer Verbindung oder Vermischung der Vorbehaltsware mit einer neuen Sache – in Höhe des Rechnungsbetrages an uns im Voraus ab, und wir nehmen diese Abtretung an. Sie bleiben zur Einziehung der Forderungen ermächtigt; wir dürfen Forderungen jedoch auch selbst einziehen, soweit Sie Ihren Zahlungsverpflichtungen nicht nachkommen.</p>
+
+			<h2>8. Transportschäden</h2>
+			<p>Für Verbraucher gilt: Werden Waren mit offensichtlichen Transportschäden angeliefert, reklamieren Sie solche Fehler bitte möglichst sofort beim Zusteller und nehmen Sie unverzüglich Kontakt zu uns auf. Die Versäumung einer Reklamation oder Kontaktaufnahme hat für Ihre gesetzlichen Ansprüche und deren Durchsetzung, insbesondere Ihre Gewährleistungsrechte, keinerlei Konsequenzen. Sie helfen uns aber, unsere eigenen Ansprüche gegenüber dem Frachtführer bzw. der Transportversicherung geltend machen zu können.</p>
+			<p>Für Unternehmer gilt: Die Gefahr des zufälligen Untergangs und der zufälligen Verschlechterung geht auf Sie über, sobald wir die Ware dem Spediteur, dem Frachtführer oder der sonst zur Ausführung der Versendung bestimmten Person oder Anstalt ausgeliefert haben. Unter Kaufleuten gilt die in § 377 HGB geregelte Untersuchungs- und Rügepflicht. Unterlassen Sie die dort geregelte Anzeige, so gilt die Ware als genehmigt, es sei denn, es handelt sich um einen Mangel, der bei der Untersuchung nicht erkennbar war. Dies gilt nicht, falls wir einen Mangel arglistig verschwiegen haben.</p>
+
+			<h2>9. Gewährleistungsrechte und Haftung</h2>
+			<p>Soweit sich aus diesen AGB einschließlich der nachfolgenden Bestimmungen nichts anderes ergibt, haften wir bei einer Verletzung von vertraglichen und außervertraglichen Pflichten nach den gesetzlichen Vorschriften.</p>
+			<p>Wir haften auf Schadensersatz – gleich aus welchem Rechtsgrund – im Rahmen der Verschuldenshaftung bei Vorsatz und grober Fahrlässigkeit. Bei einfacher Fahrlässigkeit haften wir, vorbehaltlich gesetzlicher Haftungsbeschränkungen (z. B. Sorgfalt in eigenen Angelegenheiten; unerhebliche Pflichtverletzung), nur für Schäden aus der Verletzung des Lebens, des Körpers oder der Gesundheit sowie für Schäden aus der Verletzung einer wesentlichen Vertragspflicht (Pflicht, deren Erfüllung die ordnungsgemäße Durchführung des Vertrags überhaupt erst ermöglicht und auf deren Einhaltung der Vertragspartner regelmäßig vertraut und vertrauen darf); in diesem Fall ist unsere Haftung jedoch auf den Ersatz des vorhersehbaren, typischerweise eintretenden Schadens begrenzt.</p>
+			<p>Die vorgenannten Haftungsbeschränkungen gelten auch bei Pflichtverletzungen durch bzw. zugunsten von Personen, deren Verschulden wir nach den gesetzlichen Vorschriften zu vertreten haben. Sie gelten nicht, soweit wir einen Mangel arglistig verschwiegen oder eine Garantie für die Beschaffenheit der Ware übernommen haben und für Ansprüche nach dem Produkthaftungsgesetz.</p>
+			<p>Wegen einer Pflichtverletzung, die nicht in einem Mangel besteht, können Sie nur zurücktreten oder kündigen, wenn wir die Pflichtverletzung zu vertreten haben. Ein freies Kündigungsrecht des Kunden (insbesondere nach §§ 650, 648 BGB) wird ausgeschlossen. Im Übrigen gelten die gesetzlichen Voraussetzungen und Rechtsfolgen.</p>
+
+			<h2>10. Widerrufsrecht</h2>
+			<p>Verbrauchern steht das gesetzliche Widerrufsrecht zu, wie in der Widerrufsbelehrung beschrieben. Unternehmern wird kein freiwilliges Widerrufsrecht eingeräumt.</p>
+
+			<h2>11. Schlussbestimmungen</h2>
+			<p>Sind Sie Unternehmer, dann gilt deutsches Recht unter Ausschluss des UN-Kaufrechts. Sind Sie Kaufmann im Sinne des Handelsgesetzbuches, juristische Person des öffentlichen Rechts oder öffentlich-rechtliches Sondervermögen, ist Gerichtsstand für alle Streitigkeiten aus Vertragsverhältnissen zwischen uns und Ihnen unser Geschäftssitz.</p>
+
+			<h2>12. Haftungsausschluss bei Projekt T1 Kursinhalten</h2>
+			<p>Informationszweck der Kursinhalte: Die in unseren Projekt T1 Kursen bereitgestellten Informationen und Inhalte dienen ausschließlich allgemeinen Informations- und Bildungszwecken. Sie stellen keine professionelle Beratung oder Anleitung dar und sind nicht als Ersatz für eine fachkundige Ausbildung in Elektrotechnik gedacht.</p>
+			<p>Kein Erfolgsgarantie: Wir übernehmen keine Garantie dafür, dass die in den Kursen vermittelten Inhalte oder Empfehlungen zu einem bestimmten Erfolg führen oder dass sie in der individuellen Situation des Nutzers anwendbar oder effektiv sind.</p>
+			<p>Eigene Verantwortung: Der Nutzer ist dafür verantwortlich, alle Kursinhalte kritisch zu hinterfragen und vor ihrer Umsetzung eigenverantwortlich zu überprüfen, ob sie für seine speziellen Bedürfnisse und Anforderungen geeignet sind. Dies gilt insbesondere für Arbeiten an elektrischen Anlagen und Geräten. Wir übernehmen keine Haftung für Schäden, die durch die unsachgemäße oder fehlerhafte Anwendung der Kursinhalte entstehen, insbesondere wenn die Sicherheitsbestimmungen nicht eingehalten werden.</p>
+			<p>Haftungsbeschränkung: Unsere Haftung ist auf Vorsatz und grobe Fahrlässigkeit beschränkt. Im Übrigen haften wir nur für die Verletzung wesentlicher Vertragspflichten, deren Erfüllung die ordnungsgemäße Durchführung des Vertrags überhaupt erst ermöglicht und auf deren Einhaltung der Vertragspartner regelmäßig vertrauen darf, jedoch auch dann nur für den vorhersehbaren, typischerweise eintretenden Schaden.</p>
+			<p>Kein Ersatz für professionelle Beratung und Fachkräfte: Die Inhalte unserer Kurse sind nicht dazu bestimmt, professionelle Beratung oder Fachkräfte in Bereichen wie Elektrotechnik, Elektronik oder verwandten spezialisierten Bereichen zu ersetzen. Nutzer sollten bei Bedarf entsprechende Fachleute konsultieren, insbesondere bei Arbeiten an elektrischen Anlagen, die nur von qualifizierten Elektrikern durchgeführt werden dürfen.</p>
+
+			<h2>Wichtige Hinweise und Haftungsausschluss</h2>
+			<p>Warnung: Lesen Sie bitte die Gebrauchsanleitung, bevor sie unsere Produkte aufbauen bzw. in Betrieb nehmen. Unsere Produkte sind nur Entwicklungsaufgaben, Forschung und Unterricht konzipiert. Für die Einhaltung der technischen Vorschriften sind sie selbst verantwortlich.</p>
+
+			<h2>Sicherheitshinweise</h2>
+			<p>Beim Umgang mit Produkten, die mit elektrischer Spannung in Berührung kommen, müssen die gültigen VDE-Vorschriften beachtet werden, insbesondere VDE 0100, VDE 0550/0551, VDE 0700, VDE 0711 und VDE 0860. Vor Öffnen eines Gerätes stets den Netzstecker ziehen oder sicherstellen, dass das Gerät stromlos ist. Bauteile, Baugruppen oder Geräte dürfen nur in Betrieb genommen werden, wenn sie vorher berührungssicher in ein Gehäuse eingebaut wurden. Während des Einbaus müssen sie stromlos sein.</p>
+			<p>Werkzeuge dürfen an Geräten, Bauteilen oder Baugruppen nur benutzt werden, wenn sichergestellt ist, dass die Geräte von der Versorgungsspannung getrennt sind und elektrische Ladungen, die in den im Gerät befindlichen Bauteilen gespeichert sind, vorher entladen wurden.</p>
+			<p>Spannungsführende Kabel oder Leitungen, mit denen das Gerät, das Bauteil oder die Baugruppe verbunden ist, müssen stets auf Isolationsfehler oder Bruchstellen untersucht werden. Bei Feststellen eines Fehlers in der Zuleitung muss das Gerät unverzüglich aus dem Betrieb genommen werden, bis die defekte Leitung ausgewechselt worden ist. Bei Einsatz von Bauelementen oder Baugruppen muss stets auf die strikte Einhaltung der in der zugehörigen Beschreibung genannten Kenndaten für elektrische Größen hingewiesen werden. Wenn aus einer vorliegenden Beschreibung für den nicht gewerblichen Endverbraucher nicht eindeutig hervorgeht, welche elektrischen Kennwerte für ein Bauteil oder eine Baugruppe gelten, wie eine externe Beschaltung durchzuführen ist oder welche externen Bauteile oder Zusatzgeräte angeschlossen werden dürfen und welche Anschlusswerte diese externen Komponenten haben dürfen, so muss stets ein Fachmann um Auskunft ersucht werden. Es ist vor der Inbetriebnahme eines Gerätes generell zu prüfen, ob dieses Gerät oder Baugruppe grundsätzlich für den Anwendungsfall, für den es verwendet werden soll, geeignet ist.</p>
+			<p>Im Zweifelsfalle sind unbedingt Rückfragen bei Fachleuten, Sachverständigen oder den Herstellern der verwendeten Baugruppen notwendig.</p>
+			<p>Bitte beachten Sie, dass Bedien- und Anschlussfehler außerhalb unseres Einflussbereiches liegen. Verständlicherweise können wir für Schäden, die daraus entstehen, keinerlei Haftung übernehmen. Bausätze sollten bei Nichtfunktion mit einer genauen Fehlerbeschreibung (Angabe dessen, was nicht funktioniert, denn nur eine exakte Fehlerbeschreibung ermöglicht eine einwandfreie jedoch kostenpflichtige Reparatur) und der zugehörigen Bauanleitung sowie ohne Gehäuse zurückgesandt werden. Zeitaufwendige Montagen oder Demontagen von Gehäusen müssen wir aus verständlichen Gründen zusätzlich berechnen. Bereits aufgebaute Bausätze sind vom Umtausch ausgeschlossen. Bei Installationen und beim Umgang mit Netzspannung sind unbedingt die VDE-Vorschriften zu beachten. Geräte, die an einer Spannung über 35 V betrieben werden, dürfen nur vom Fachmann angeschlossen werden. In jedem Fall ist zu prüfen, ob der Bausatz oder die Platine für den jeweiligen Anwendungsfall und Einsatzort geeignet ist bzw. eingesetzt werden kann.</p>
+			<p>Derjenige, der einen Bausatz fertigstellt oder eine Baugruppe durch Erweiterung bzw. Gehäuseeinbau betriebsbereit macht, gilt nach DIN VDE 0869 als Hersteller und ist verpflichtet, bei der Weitergabe des Gerätes alle Begleitpapiere mitzuliefern und auch seinen Namen und Anschrift anzugeben. Geräte, die aus Bausätzen selbst zusammengestellt werden, sind sicherheitstechnisch wie ein industrielles Produkt zu betrachten.</p>
+
+			<h2>Bestimmungsgemäße Verwendung (Betriebsbedingungen)</h2>
+			<p>Warnung: Unsere Module sind als Experimentier- und Lernplatinen entwickelt worden. Sie sind nicht geeignet Aufgaben im produktiven Betrieb zu übernehmen. Die Module sind für den Gebrauch in trockenen und sauberen Räumen bestimmt. Ein anderer Einsatz ist nicht zulässig.</p>
+			<p>Der nicht bestimmungsgemäße Einsatz unserer Produkte kann diese beschädigen oder zerstören, was mit Gefahren wie z. B. Kurzschluss, Brand, elektrischer Schlag, Funkstörungen usw. verbunden ist. Die Produkte dürfen nicht geändert bzw. umgebaut werden. Auf keinen Fall darf 230V Netzspannung angeschlossen werden – es besteht Lebensgefahr. Der Betrieb der Baugruppen darf nur an der dafür vorgeschriebenen Spannung erfolgen. Bei Geräten mit einer Betriebsspannung ab 35 Volt darf die Endmontage nur vom Fachmann unter Einhaltung der VDE Bestimmungen vorgenommen werden. Die Betriebslage des Gerätes ist beliebig.</p>
+			<p>Bei der Installation der Geräte ist auf ausreichenden Kabelquerschnitt der Anschlussleitungen zu achten. Die angeschlossenen Verbraucher sind entsprechend den VDE Vorschriften zu verbinden. Die zulässige Umgebungstemperatur (Raumtemperatur) darf während des Betriebes 0°C und 40°C nicht unter- bzw. überschreiten.</p>
+			<p>Bei Bildung von Kondenswasser muss eine Akklimatisierungszeit von bis zu 2 Stunden abgewartet werden. In gewerblichen Einrichtungen sind die Unfallverhütungsvorschriften des Verbandes der gewerblichen Berufsgenossenschaften für elektrische Anlagen und Betriebsmittel zu beachten. In Schulen, Ausbildungseinrichtungen, Hobby- und Selbsthilfewerkstätten ist das Betreiben von Baugruppen durch geschultes Personal verantwortlich zu überwachen.</p>
+			<p>Betreiben Sie die Baugruppen nicht in einer Umgebung in welcher brennbare Gase, Dämpfe oder Stäube vorhanden sind oder vorhanden sein können.</p>
+			<p>Falls das Gerät einmal repariert werden muss, dürfen nur Original-Ersatzteile verwendet werden. Die Verwendung abweichender Ersatzteile kann zu ernsthaften Sach- und Personenschäden führen. Dringt irgendeine Flüssigkeit in das Gerät ein, so könnte es dadurch beschädigt werden.</p>
+			<p>Bitte beachten Sie, dass beim Betrieb eines Funkmoduls die gesetzlichen Bestimmungen beachtet werden müssen. Diese Bestimmungen regeln die Kanalnutzung, Sendeleistung usw. Der Betrieb darf nur in freigegebenen Frequenzbereichen mit der maximal erlaubten Sendeleistung und Sendedauer erfolgen. Bitte entnehmen Sie diese Informationen bei der jeweils zuständigen Behörde. Für Deutschland finden Sie diese Informationen unter www.bundesnetzagentur.de. Beachten Sie dazu auch das Datenblatt des Funkmodulherstellers.</p>
+
+			<h2>Haftung, EMV - Konformität</h2>
+			<p>Alle Teile der Schaltung wurden sorgfältigst geprüft und getestet. Trotzdem können wir natürlich keine Garantie dafür übernehmen, dass alles einwandfrei funktioniert. Insbesondere übernehmen wir keine Haftung für Schäden, die durch Nachbau, Inbetriebnahme etc. der auf unserer Webseite, oder in unseren Dokumentationen vorgestellten Schaltungen entstehen. Derjenige, der den Bausatz oder das Projekt zusammenbaut, gilt als Hersteller und ist damit selbst für die Einhaltung der geltenden Sicherheits- und EMV-Richtlinien und Vorschriften verantwortlich.</p>
+			<p>Wenn nicht anders angegeben handelt es sich generell bei allen Platinen, Bausätzen, Modulen und Boards um "nicht CE-geprüfte" Komponenten und sind konzipiert für den Einbau in Geräte oder Gehäuse. Bei der Anwendung müssen die CE-Normen eingehalten werden. Hierfür ist der Käufer verantwortlich.</p>
+			<p>Für Schäden, die durch fehlerhaften Aufbau entstanden sind, direkt oder indirekt, ist die Haftung generell ausgeschlossen. Schadensersatzansprüche, die nicht die Verletzung von Leben, Körper oder Gesundheit betreffen, sind ausgeschlossen, wenn sie nicht auf einer vorsätzlich oder grob fahrlässig begangenen Pflichtverletzung beruhen. Sofern wir haften, umfasst unsere Haftung nicht solche Schäden, die nicht typischerweise erwartet werden konnten. Haftung und Schadenersatzansprüche sind auf den Auftragswert / Bauteilwert beschränkt. Bei der Lieferung von Fremdprodukten als auch Software gelten über diese Bedingungen hinaus die besonderen Lizenz- oder sonstigen Bedingungen des Herstellers.</p>
+		</section>
+
+		<footer class="footer">
+			<div class="footer-links">
+				<a href="impressum.html" aria-label="Impressum anzeigen">Impressum</a>
+				<a href="datenschutz.html" aria-label="Datenschutz anzeigen">Datenschutz</a>
+				<a href="agb.html" aria-label="AGB anzeigen">AGB</a>
+			</div>
+			<div>Kontakt: dgfuturecreator@gmail.com | +49 160 98666018 | SDG Future Creator GmbH, Gifhorn</div>
+			<div>&copy; 2026 FutureCreator. Alle Rechte vorbehalten.</div>
+		</footer>
+	</main>
+
+	<script>
+		const menuButton = document.getElementById("menuButton");
+		const drawer = document.getElementById("drawer");
+		const overlay = document.getElementById("overlay");
+
+		const setMenu = (open) => {
+			drawer.classList.toggle("open", open);
+			overlay.classList.toggle("show", open);
+			menuButton.setAttribute("aria-expanded", String(open));
+		};
+
+		menuButton.addEventListener("click", () => {
+			setMenu(!drawer.classList.contains("open"));
+		});
+
+		overlay.addEventListener("click", () => setMenu(false));
+		drawer.querySelectorAll("a").forEach((link) => {
+			link.addEventListener("click", () => setMenu(false));
+		});
+	</script>
+</body>
+</html>

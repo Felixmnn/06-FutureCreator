@@ -559,6 +559,51 @@
 			font-size: 1rem;
 		}
 
+		.part-preview {
+			margin-top: 12px;
+			border: 1px solid var(--border);
+			border-radius: 14px;
+			padding: 14px;
+			background: #f9fbff;
+			display: grid;
+			grid-template-columns: 180px 1fr;
+			gap: 14px;
+		}
+
+		.part-preview img {
+			width: 100%;
+			height: auto;
+			aspect-ratio: 3 / 2;
+			object-fit: cover;
+			border-radius: 10px;
+			border: 1px solid var(--border);
+			background: linear-gradient(135deg, #ebf2ff, #d6e5ff);
+		}
+
+		.part-preview h3 {
+			color: #143f9f;
+			margin-bottom: 6px;
+		}
+
+		.part-preview p {
+			color: #32445a;
+			line-height: 1.55;
+		}
+
+		.part-card {
+			cursor: pointer;
+		}
+
+		.part-card.active {
+			border-color: #8fb1ff;
+			background: #f2f7ff;
+		}
+
+		.part-card:focus-visible {
+			outline: none;
+			box-shadow: var(--ring);
+		}
+
 		.details-hidden {
 			display: none;
 		}
@@ -782,6 +827,11 @@
 			.selection-grid {
 				grid-template-columns: 1fr;
 			}
+
+			.part-preview {
+				grid-template-columns: 1fr;
+			}
+
 		}
 	</style>
 </head>
@@ -812,6 +862,9 @@
 			<li><a href="#details">Technische Komponenten</a></li>
 			<li><a href="#dokumente">Dokumente</a></li>
 			<li><a href="contact.html">Kontakt</a></li>
+			<li><a href="impressum.html">Impressum</a></li>
+			<li><a href="datenschutz.html">Datenschutz</a></li>
+			<li><a href="agb.html">AGB</a></li>
 		</ul>
 	</aside>
 	<div class="overlay" id="overlay"></div>
@@ -825,7 +878,7 @@
 				<span class="tag">T1-Xplorer Produktserie</span>
 				<h1 id="productTitle">T1-Xplorer Basic Set</h1>
 				<p>
-					Komplettset für Mikrocontroller- und Robotik-Unterricht mit Online-Kurs, Sensoren und Projekten.
+					Komplettset für Mikrocontrollerunterricht mit Online-Kurs, Sensoren und Projekten.
 				</p>
 
 				<div class="field">
@@ -853,7 +906,7 @@
 		<section class="section" id="features">
 	<h2>Produkt-Highlights</h2>
 	<p>
-	Das T1-Xplorer Basic Set kombiniert Hardware, Lernmaterialien und Online-Kurs zu einem vollständigen Unterrichtssystem für Mikrocontroller und Robotik.
+	Das T1-Xplorer Set kombiniert Hardware, Lernmaterialien und Online-Kurs zu einem vollständigen Unterrichtssystem für Mikrocontroller.
 	</p>
 
 	<div class="features">
@@ -872,24 +925,20 @@
 			</p>
 		</article>
 
-		<article class="feature">
-			<h3>Förderfähig für Schulen</h3>
-			<p>
-			Vorbereitete Unterlagen unterstützen bei Förderanträgen, Freigaben und der Planung von Technikprojekten im Schulbetrieb.
-			</p>
-		</article>
-
 	</div>
 		</section>
 
 		<section class="section" id="details">
 			<h2>Enthaltene Bauteile</h2>
+			<div class="part-preview" id="partPreview" aria-live="polite"></div>
 			<div class="features" id="detailsGrid"></div>
 			<div class="details-toggle-row" id="detailsToggleRow"></div>
 		</section>
 
 		<section class="section" id="lernkurs">
-			<h2>Online Lernkurs (kostenlos)</h2>
+			<a href="https://xplore-dna.net/course/index.php?categoryid=51" target="_blank" rel="noopener" aria-label="Zum Online Lernkurs auf xplore-dna.net">
+				<h2>Online Lernkurs (kostenlos)</h2></a>
+			
 <p>Der Online-Kurs vermittelt zunächst die Grundlagen des im T1-Xplorer-Set enthaltenen Mikrocontrollers und erweitert diese anschließend durch praxisnahe Projekte mit Sensordaten, Datenanalyse sowie App- und E-Mail-Integration.</p>			<div class="carousel-wrap">
 				<div class="carousel-track-outer">
 					<div class="carousel-track" id="courseTrack"></div>
@@ -947,6 +996,7 @@
 			<div class="footer-links">
 				<a href="impressum.html" aria-label="Impressum anzeigen">Impressum</a>
 				<a href="datenschutz.html" aria-label="Datenschutz anzeigen">Datenschutz</a>
+				<a href="agb.html" aria-label="AGB anzeigen">AGB</a>
 			</div>
 			<div>Kontakt: hello@futurecreator.example | +49 30 1234 5678 | FutureCreator GmbH, Berlin</div>
 			<div>&copy; 2026 FutureCreator. Alle Rechte vorbehalten.</div>
@@ -975,6 +1025,7 @@
 		const copyBtn = document.getElementById("copyBtn");
 		const copyFeedback = document.getElementById("copyFeedback");
 		const detailsGrid = document.getElementById("detailsGrid");
+		const partPreview = document.getElementById("partPreview");
 		const detailsToggleRow = document.getElementById("detailsToggleRow");
 		const courseTrack = document.getElementById("courseTrack");
 		const prevBtn = document.getElementById("coursePrev");
@@ -989,6 +1040,13 @@
 				image: "./images/basic.jpg",
 				basePrice: 52.99,
 				courses: [ 
+					{ 
+						link: "https://xplore-dna.net/course/index.php?categoryid=70",
+						label: "Alle Module", 
+						title: "Module 1-6", 
+						text: "Enthält die Module 1 bis 6 des Basic Sets mit den Grundlagen zu Sensoren, Beleuchtung, Sounds, Monitoring und IoT."
+					 },
+
 					{ 
 						link: "https://xplore-dna.net/course/view.php?id=157",
 						label: "Modul 1", title: "Electric Lighting", text: "Einbau und Ansteuerung der Beleuchtung im T1. LEDs werden angeschlossen, programmiert und über verschiedene Modi individuell gesteuert." },
@@ -1104,10 +1162,23 @@
 		};
 
 		const renderParts = (parts) => {
+			const showPartPreview = (part, selectedIndex) => {
+				partPreview.innerHTML = `
+					<img src="${part.image || "./images/pb1.png"}" alt="${part.title}" loading="lazy" onerror="this.onerror=null;this.src='./images/pb1.png';" />
+					<div>
+						<h3>${part.title}</h3>
+						<p>${part.text}</p>
+					</div>
+				`;
+				detailsGrid.querySelectorAll(".part-card").forEach((el, i) => {
+					el.classList.toggle("active", i === selectedIndex);
+				});
+			};
+
 			detailsGrid.innerHTML = parts
 				.map(
 					(part, i) => `
-						<article class="feature${i >= DETAILS_INITIAL ? " details-extra details-hidden" : ""}">
+						<article class="feature part-card${i >= DETAILS_INITIAL ? " details-extra details-hidden" : ""}" data-part-index="${i}" tabindex="0" role="button" aria-label="${part.title} anzeigen">
 							<div class="feature-details">
 								<img class="feature-details-img" src="${part.image || "./images/pb1.png"}" alt="${part.title}" loading="lazy" onerror="this.onerror=null;this.src='./images/pb1.png';" />
 								<div class="feature-details-body">
@@ -1119,6 +1190,23 @@
 					`
 				)
 				.join("");
+
+			detailsGrid.querySelectorAll(".part-card").forEach((card) => {
+				const index = Number.parseInt(card.dataset.partIndex, 10);
+				card.addEventListener("click", () => showPartPreview(parts[index], index));
+				card.addEventListener("keydown", (event) => {
+					if (event.key === "Enter" || event.key === " ") {
+						event.preventDefault();
+						showPartPreview(parts[index], index);
+					}
+				});
+			});
+
+			if (parts.length > 0) {
+				showPartPreview(parts[0], 0);
+			} else {
+				partPreview.innerHTML = "";
+			}
 
 			const hasExtra = parts.length > DETAILS_INITIAL;
 			if (hasExtra) {

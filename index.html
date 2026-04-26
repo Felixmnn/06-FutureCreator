@@ -459,133 +459,19 @@
 			text-decoration: underline;
 		}
 
-		/* Reviews Carousel */
-		.reviews-outer {
-			overflow: hidden;
-			border-radius: 14px;
+		.video-embed-wrap {
 			margin-top: 14px;
-		}
-
-		.reviews-track {
-			display: flex;
-			gap: 16px;
-			transition: transform 340ms ease;
-			will-change: transform;
-		}
-
-		.review-card {
-			flex: 0 0 calc(50% - 8px);
-			min-width: 0;
 			border: 1px solid var(--border);
 			border-radius: 14px;
-			padding: 18px;
+			overflow: hidden;
 			background: #f9fbff;
-			display: flex;
-			flex-direction: column;
-			gap: 10px;
 		}
 
-		.review-stars {
-			color: #f5a623;
-			font-size: 1.1rem;
-			letter-spacing: 2px;
-		}
-
-		.review-text {
-			color: #263245;
-			line-height: 1.6;
-			font-size: 0.95rem;
-			flex: 1;
-		}
-
-		.review-author {
-			display: flex;
-			align-items: center;
-			gap: 10px;
-			margin-top: 4px;
-		}
-
-		.review-avatar {
-			width: 40px;
-			height: 40px;
-			border-radius: 50%;
-			background: var(--primary-soft);
-			border: 2px solid var(--border);
-			display: grid;
-			place-items: center;
-			font-size: 1.1rem;
-			flex-shrink: 0;
-		}
-
-		.review-name {
-			font-weight: 700;
-			color: #143f9f;
-			font-size: 0.92rem;
-		}
-
-		.review-role {
-			color: var(--muted);
-			font-size: 0.82rem;
-		}
-
-		.reviews-controls {
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			gap: 12px;
-			margin-top: 16px;
-		}
-
-		.rev-btn {
-			border: 2px solid var(--primary);
-			background: #fff;
-			color: var(--primary);
-			border-radius: 50%;
-			width: 38px;
-			height: 38px;
-			display: grid;
-			place-items: center;
-			cursor: pointer;
-			font-size: 1.1rem;
-			transition: background 160ms ease, color 160ms ease;
-		}
-
-		.rev-btn:hover {
-			background: var(--primary);
-			color: #fff;
-		}
-
-		.rev-btn:disabled {
-			opacity: 0.35;
-			cursor: default;
-			pointer-events: none;
-		}
-
-		.reviews-dots {
-			display: flex;
-			gap: 7px;
-			align-items: center;
-		}
-
-		.reviews-dot {
-			width: 8px;
-			height: 8px;
-			border-radius: 50%;
-			background: var(--border);
-			border: none;
-			cursor: pointer;
-			transition: background 160ms ease, transform 160ms ease;
-		}
-
-		.reviews-dot.active {
-			background: var(--primary);
-			transform: scale(1.35);
-		}
-
-		@media (max-width: 680px) {
-			.review-card {
-				flex: 0 0 100%;
-			}
+		.video-embed-wrap iframe {
+			display: block;
+			width: 100%;
+			aspect-ratio: 16 / 9;
+			border: 0;
 		}
 
 		@media (max-width: 760px) {
@@ -631,6 +517,9 @@
 			<li><a href="product.html">Zur Produktseite</a></li>
 			<li><a href="contact.html">Zur Kontaktseite</a></li>
 			<li><a href="#förderung">Förderung</a></li>
+			<li><a href="impressum.html">Impressum</a></li>
+			<li><a href="datenschutz.html">Datenschutz</a></li>
+			<li><a href="agb.html">AGB</a></li>
 		</ul>
 	</aside>
 	<div class="overlay" id="overlay"></div>
@@ -670,7 +559,7 @@
 		<section id="produkte">
 			<h2>Das T1-Xplorer Konzept</h2>
 			<p>
-				T1-Xplorer kombiniert Lernkurs und Hardware-Sets zu einem vollständigen Unterrichtssystem für Mikrocontroller und Robotik.
+				T1-Xplorer kombiniert Lernkurs und Hardware-Sets zu einem vollständigen Unterrichtssystem für Mikrocontroller.
 			</p>
 			<div class="products-grid">
 
@@ -678,7 +567,7 @@
 		<img class="product-preview" src="./images/basic.jpg" alt="T1-Xplorer Basic Set" loading="lazy" />
 		<h3>T1-Xplorer Basis Set</h3>
 		<p>
-		Alle wichtigen Komponenten für den Einstieg in Robotik und Mikrocontroller. Perfekt für erste Projekte im Unterricht.
+		Alle wichtigen Komponenten für den Einstieg in Mikrocontroller. Perfekt für erste Projekte im Unterricht.
 		</p>
 	</a>
 
@@ -708,82 +597,16 @@
 
 		
 		<section id="bewertungen">
-			<h2>Das sagen unsere Nutzer</h2>
-			<p>Lehrer, Ausbilder und Schüler berichten von ihren Erfahrungen mit dem T1-Xplorer.</p>
-			<div class="reviews-outer">
-				<div class="reviews-track" id="reviewsTrack">
-					<div class="review-card">
-						<div class="review-stars">★★★★★</div>
-						<p class="review-text">"Das Basic Set hat meinen Schülerinnen und Schülern einen brillanten Einstieg in die Welt der Mikrocontroller ermöglicht. Die Anleitungen sind klar und die Bauteile qualitativ hochwertig."</p>
-						<div class="review-author">
-							<div class="review-avatar" aria-hidden="true">👩‍🏫</div>
-							<div>
-								<div class="review-name">Sandra K.</div>
-								<div class="review-role">Lehrerin, Realschule München</div>
-							</div>
-						</div>
-					</div>
-					<div class="review-card">
-						<div class="review-stars">★★★★★</div>
-						<p class="review-text">"Der Online-Lernkurs ist genial aufgebaut. Meine Auszubildenden haben innerhalb einer Woche ihren ersten Roboter gebaut und programmiert. Absolut empfehlenswert!"</p>
-						<div class="review-author">
-							<div class="review-avatar" aria-hidden="true">👨‍🔧</div>
-							<div>
-								<div class="review-name">Thomas R.</div>
-								<div class="review-role">Ausbilder, IHK-Betrieb Stuttgart</div>
-							</div>
-						</div>
-					</div>
-					<div class="review-card">
-						<div class="review-stars">★★★★★</div>
-						<p class="review-text">"Mit dem Advanced Set konnten wir im Wahlpflichtfach Technik vollständig auf eigenständige Schülerexperimente umsteigen. Die Materialien decken genau den Lehrplan ab."</p>
-						<div class="review-author">
-							<div class="review-avatar" aria-hidden="true">👨‍🏫</div>
-							<div>
-								<div class="review-name">Markus F.</div>
-								<div class="review-role">Fachlehrer MINT, Gymnasium Hamburg</div>
-							</div>
-						</div>
-					</div>
-					<div class="review-card">
-						<div class="review-stars">★★★★★</div>
-						<p class="review-text">"Ich habe das Set als Geburtstagsgeschenk bekommen und seitdem nicht mehr aufgehört zu basteln. Die Live-Q&amp;A Sessions im Kurs sind das Beste &ndash; echte Experten, die sofort helfen."</p>
-						<div class="review-author">
-							<div class="review-avatar" aria-hidden="true">🧑‍💻</div>
-							<div>
-								<div class="review-name">Lena M., 16</div>
-								<div class="review-role">Schülerin, privat</div>
-							</div>
-						</div>
-					</div>
-					<div class="review-card">
-						<div class="review-stars">★★★★☆</div>
-						<p class="review-text">"Die Förderdokumente haben uns die Beantragung von Digitalmitteln extrem erleichtert. Alles war fertig aufbereitet und passte direkt zum bayerischen Förderprogramm."</p>
-						<div class="review-author">
-							<div class="review-avatar" aria-hidden="true">👩‍💼</div>
-							<div>
-								<div class="review-name">Dr. Petra W.</div>
-								<div class="review-role">Schulleitung, Mittelschule Augsburg</div>
-							</div>
-						</div>
-					</div>
-					<div class="review-card">
-						<div class="review-stars">★★★★★</div>
-						<p class="review-text">"Unser gesamter Jahrgang hat das Basic Set verwendet. Die Sicherheitsdatenblätter haben die Elternzustimmung problemlos ermöglicht. Rundum ein professionelles Produkt."</p>
-						<div class="review-author">
-							<div class="review-avatar" aria-hidden="true">👨‍🎓</div>
-							<div>
-								<div class="review-name">Stefan B.</div>
-								<div class="review-role">Klassenlehrer, Berufsschule Nürnberg</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="reviews-controls">
-				<button class="rev-btn" id="revPrev" aria-label="Zurueck">&#8592;</button>
-				<div class="reviews-dots" id="reviewsDots"></div>
-				<button class="rev-btn" id="revNext" aria-label="Weiter">&#8594;</button>
+			<h2>Produktvideo</h2>
+			<p>Sieh dir das T1-Xplorer Konzept direkt im Video an.</p>
+			<div class="video-embed-wrap">
+				<iframe
+					src="https://www.youtube.com/embed/2fGNsr9hBC0"
+					title="T1-Xplorer YouTube Video"
+					loading="lazy"
+					allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+					allowfullscreen>
+				</iframe>
 			</div>
 		</section>
 
@@ -813,6 +636,7 @@
 			<div class="footer-links">
 				<a href="impressum.html" aria-label="Impressum anzeigen">Impressum</a>
 				<a href="datenschutz.html" aria-label="Datenschutz anzeigen">Datenschutz</a>
+				<a href="agb.html" aria-label="AGB anzeigen">AGB</a>
 			</div>
 			<div>Kontakt: hello@futurecreator.example | +49 30 1234 5678 | FutureCreator GmbH, Berlin</div>
 			<div>&copy; 2026 FutureCreator. Alle Rechte vorbehalten.</div>
@@ -915,54 +739,6 @@
 
 		paint();
 
-		// Reviews Carousel
-		const reviewsTrack = document.getElementById("reviewsTrack");
-		const reviewCards = Array.from(reviewsTrack.children);
-		const reviewsDots = document.getElementById("reviewsDots");
-		const revPrev = document.getElementById("revPrev");
-		const revNext = document.getElementById("revNext");
-
-		const getRevsPerView = () => window.innerWidth <= 680 ? 1 : 2;
-
-		let revIndex = 0;
-
-		const buildRevDots = () => {
-			const perView = getRevsPerView();
-			const total = Math.ceil(reviewCards.length / perView);
-			reviewsDots.innerHTML = "";
-			for (let i = 0; i < total; i++) {
-				const dot = document.createElement("button");
-				dot.className = "reviews-dot" + (i === 0 ? " active" : "");
-				dot.setAttribute("aria-label", `Seite ${i + 1}`);
-				dot.addEventListener("click", () => goToRev(i));
-				reviewsDots.appendChild(dot);
-			}
-		};
-
-		const goToRev = (i) => {
-			const perView = getRevsPerView();
-			const maxIndex = Math.ceil(reviewCards.length / perView) - 1;
-			revIndex = Math.max(0, Math.min(i, maxIndex));
-			const cardWidth = reviewCards[0].offsetWidth + 16;
-			reviewsTrack.style.transform = `translateX(-${revIndex * perView * cardWidth}px)`;
-			reviewsDots.querySelectorAll(".reviews-dot").forEach((d, j) => {
-				d.classList.toggle("active", j === revIndex);
-			});
-			revPrev.disabled = revIndex === 0;
-			revNext.disabled = revIndex >= maxIndex;
-		};
-
-		revPrev.addEventListener("click", () => goToRev(revIndex - 1));
-		revNext.addEventListener("click", () => goToRev(revIndex + 1));
-
-		let revResizeTimer;
-		window.addEventListener("resize", () => {
-			clearTimeout(revResizeTimer);
-			revResizeTimer = setTimeout(() => { buildRevDots(); goToRev(0); }, 120);
-		});
-
-		buildRevDots();
-		goToRev(0);
 	</script>
 </body>
 </html>
